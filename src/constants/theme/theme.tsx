@@ -21,6 +21,9 @@ const Theme = createTheme({
             contrastText: '#fff',
         }
     },
+    typography: {
+        fontFamily: 'Kanit',
+      },
 })
 
 export default Theme
