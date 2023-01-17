@@ -1,3 +1,3 @@
-export interface ButtonProps {
-    text: string
+export interface HomeProps {
+
 }

@@ -1,5 +1,6 @@
-import { StyledContainer,AppBarStyle,ArrowBackIosIconStyle,PageTitleTextStyle} from './style'
-import { type } from './type'
+import { StyledContainer, AppBarStyle, ArrowBackIosIconStyle, PageTitleTextStyle } from './style'
+import { PageTitleProps } from './type'
+import React from 'react';
 import { Typography, AppBar, Toolbar } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const Index = () => {

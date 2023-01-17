@@ -1,5 +1,4 @@
-export const type = () => {
-  return (
-    <div>type</div>
-  )
+export type PageTitleProps ={
+  
 }
+
