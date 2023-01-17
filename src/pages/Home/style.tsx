@@ -5,8 +5,6 @@ export const ComponentsWrapper = styled.div`
 background-color: #F5f5f5;
 border-top-left-radius: 25px;
 border-top-right-radius: 25px;
-
-
 `
 
 export const StyledContainer = styled(Container)`
