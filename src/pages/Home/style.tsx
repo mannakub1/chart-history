@@ -3,14 +3,16 @@ import { Container } from "@mui/system"
 
 export const ComponentsWrapper = styled.div`
 background-color: #F5f5f5;
-border-radius:25px;
-height: 100vh;
+border-top-left-radius: 25px;
+border-top-right-radius: 25px;
+
+
 `
 
 export const StyledContainer = styled(Container)`
-
+padding-bottom:1rem;
 `
 export const ContainerWrapper = styled.div`
 background-color: #1a4c77;
-height: 100vh;
+
 `

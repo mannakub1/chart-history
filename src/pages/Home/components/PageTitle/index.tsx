@@ -1,14 +1,13 @@
-import { StyledContainer,AppBarStyle,ArrowBackIconStyle,PageTitleTextStyle} from './style'
+import { StyledContainer,AppBarStyle,ArrowBackIosIconStyle,PageTitleTextStyle} from './style'
 import { type } from './type'
 import { Typography, AppBar, Toolbar } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const Index = () => {
     return (
         <AppBar style={AppBarStyle} elevation={0} position="sticky" >
             <StyledContainer maxWidth="md">
                 <Toolbar>
-                    <ArrowBackIcon style={ArrowBackIconStyle} />
+                    <ArrowBackIosIcon style={ArrowBackIosIconStyle} />
                     <Typography variant="h6" style={PageTitleTextStyle}>
                         ข้อมูลตลาดรองย้อนหลัง
                     </Typography>
