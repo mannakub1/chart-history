@@ -6,7 +6,7 @@ import React from 'react';
 function App() {
   return (
     <ThemeProvider theme={Theme}>
-      <Home title="ข้อมูลตลาดรองย้อนหลัง" maxWidth='md'/>
+      <Home />
     </ThemeProvider>
   );
 }

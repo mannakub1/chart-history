@@ -1,24 +1,15 @@
-import React ,{ useEffect }from 'react';
-import { ContainerWrapper, ComponentsWrapper, StyledContainer } from './style'
-import PageTitle from './components/PageTitle/index'
-import BondChip from '../../components/Chip';
-import { HomeProps } from './type';
+import React, { useEffect } from 'react';
+import Chip from '../../components/Chip';
+import { homeProps } from './type';
 
-function Home({title,maxWidth}:HomeProps) {
+function Home({}: homeProps) {
   useEffect(() => {
     document.title = "Chart History";
   }, []);
 
   return (
     <>
-      <PageTitle maxWidth={maxWidth} title={title}  />
-      <ContainerWrapper>
-        <ComponentsWrapper>
-          <StyledContainer maxWidth={maxWidth} >
-            <BondChip label='Test chip component' />
-          </StyledContainer>
-        </ComponentsWrapper>
-      </ContainerWrapper>
+          <Chip label='2.25%'/>
     </>
   );
 }

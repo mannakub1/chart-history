@@ -1,31 +1,11 @@
 import React from "react"
-import { Chip } from "@mui/material"
-import { ChipStyle } from "./style"
-import { ChipProps } from "./type"
-const BondChip: React.FC<ChipProps> = ({
-    variant,
-    color,
-    size,
-    avatar,
-    deleteIcon,
-    label,
-    onDelete,
-    onClick
-}) => {
-    return (
-        <Chip
-            variant={variant}
-            color={color}
-            size={size}
-            label={label}
-            deleteIcon={deleteIcon}
-            onDelete={onDelete}
-            onClick={onClick}
-            avatar={avatar}
-            sx={ChipStyle}
-        />
+import { StyledChip } from "./style"
+import { chipProps } from "./type"
 
+const Chip: React.FC<chipProps> = ({ label }) => {
+    return (
+        <StyledChip label={label} />
     )
 }
 
-export default BondChip
+export default Chip
