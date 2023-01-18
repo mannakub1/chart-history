@@ -1,4 +1,4 @@
-export type chipProps = {
+export type ChipProps = {
     label: string;
 }
 

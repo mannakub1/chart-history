@@ -6,10 +6,4 @@ const Theme = createTheme({
     },
 })
 
-export const color = {
-    primary: {
-        gradient: 'linear-gradient(273.79deg, #025BB7 0%, #1894DF 100%)'
-    }
-}
-
 export default Theme

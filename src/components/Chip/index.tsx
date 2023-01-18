@@ -1,8 +1,8 @@
-import React from "react"
 import { StyledChip } from "./style"
-import { chipProps } from "./type"
+import { ChipProps } from "./type"
 
-const Chip: React.FC<chipProps> = ({ label }) => {
+const Chip = (props: ChipProps) => {
+    const { label } = props
     return (
         <StyledChip label={label} />
     )
