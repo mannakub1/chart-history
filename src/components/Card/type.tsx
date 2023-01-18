@@ -1,7 +1,9 @@
 export type CardProps = {
-    withMargin?:boolean
-    withPadding?:boolean
-    rounded?: string
-    backgroundColor?:string
+    withMargin?: boolean
+    withPadding?: boolean
+    rounded?: string 
+    bottomWithNoRadius?: boolean
+    backgroundColor?: string
     children?: React.ReactNode;
+
 }

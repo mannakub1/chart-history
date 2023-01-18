@@ -7,7 +7,8 @@ const Card = (props: CardProps) => {
         rounded,
         children,
         backgroundColor,
-        withPadding
+        withPadding,
+        bottomWithNoRadius
     } = props
     return (
         <StyledCard
@@ -15,6 +16,7 @@ const Card = (props: CardProps) => {
             withMargin={withMargin}
             backgroundColor={backgroundColor}
             rounded={rounded}
+            bottomWithNoRadius={bottomWithNoRadius}
         >
             {children}
         </StyledCard>
