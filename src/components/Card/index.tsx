@@ -1,10 +1,21 @@
-import React, { FC } from 'react'
 import { StyledCard } from './style'
-import { cardProps } from './type'
-const Card:FC<cardProps> = ({ withPadding, stretchToBottom ,children}) => {
-    
+import { CardProps } from './type'
+
+const Card = (props: CardProps) => {
+    const {
+        withMargin,
+        rounded,
+        children,
+        backgroundColor,
+        withPadding
+    } = props
     return (
-        <StyledCard>
+        <StyledCard
+            withPadding={withPadding}
+            withMargin={withMargin}
+            backgroundColor={backgroundColor}
+            rounded={rounded}
+        >
             {children}
         </StyledCard>
     )

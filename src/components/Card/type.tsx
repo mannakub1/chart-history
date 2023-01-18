@@ -1,5 +1,7 @@
-export type cardProps = {
-    stretchToBottom?:boolean
+export type CardProps = {
+    withMargin?:boolean
     withPadding?:boolean
+    rounded?: string
+    backgroundColor?:string
     children?: React.ReactNode;
 }
