@@ -1,7 +1,7 @@
 import Chip from '../../components/Chip';
-function Home() {
+const Home = () => {
   return (
-          <Chip label='2.25%'/>
+    <Chip label='2.25%' />
   );
 }
 

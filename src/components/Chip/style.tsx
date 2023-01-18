@@ -1,10 +1,10 @@
-import { GRADIENT_PRIMARY_COLOR } from '../../constants/colors/colors'
+import { GRADIENT_PRIMARY } from '../../constants/colors/colors'
 import { Chip } from '@mui/material'
 import styled from 'styled-components'
 
 export const StyledChip = styled(Chip)`
   color: white !important;
-  background-image: ${GRADIENT_PRIMARY_COLOR};
+  background-image: ${GRADIENT_PRIMARY};
   font-style: normal;
   font-weight: 600;
   font-size: 18px!important;
