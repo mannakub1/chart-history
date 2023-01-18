@@ -1,24 +1,7 @@
-import { useEffect } from 'react'
-import { ContainerWrapper, ComponentsWrapper, StyledContainer } from './style'
-import PageTitle from './components/PageTitle/index'
-
-
-function Home() {
-  useEffect(() => {
-    document.title = "Chart History";
-  }, []);
-
+import Chip from '../../components/Chip';
+const Home = () => {
   return (
-    <>
-      <PageTitle />
-      <ContainerWrapper>
-        <ComponentsWrapper>
-          <StyledContainer maxWidth="md">
-  
-          </StyledContainer>
-        </ComponentsWrapper>
-      </ContainerWrapper>
-    </>
+    <Chip label='2.25%' />
   );
 }
 
