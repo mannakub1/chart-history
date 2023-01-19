@@ -19,3 +19,7 @@ export const StyledSearch = styled(TextField)`
     }
   }
 `
+
+export const StyledDiv = styled.div`
+margin-top:1rem;
+`

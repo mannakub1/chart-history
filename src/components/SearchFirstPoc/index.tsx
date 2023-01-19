@@ -1,4 +1,4 @@
-import { StyledSearch } from './style'
+import { StyledSearch,StyledDiv} from './style'
 import { mockupData } from '../../constants/mockupData/mockupData'
 import Card from '../common/Card'
 import { useState, useEffect, useRef } from 'react'
@@ -29,7 +29,7 @@ const Search = () => {
     }
     let searchListContainer = (
         // Use inline style for demonstration.
-        <div style={{ marginTop: '1rem' }}>
+        <StyledDiv>
             <Card>
                 {mockupData.map((data, index) => {
                     return (
@@ -42,7 +42,7 @@ const Search = () => {
                     )
                 })}
             </Card>
-        </div>
+        </StyledDiv>
     )
     return (
         <>

@@ -1,4 +1,4 @@
-import { StyledSearch, StyledSearchModal } from './style'
+import { StyledSearch, StyledSearchModal, StyledDiv,  } from './style'
 import { mockupData } from '../../constants/mockupData/mockupData'
 import { useState } from 'react'
 import { Divider, ListItemButton, InputAdornment, ListItemText, Modal, Typography, Button } from '@mui/material'
@@ -28,7 +28,7 @@ const Search = () => {
     }
     let searchListContainer = (
         // Use inline style for demonstration.
-        <div style={{ marginTop: '1rem' }}>
+        <StyledDiv>
             {mockupData.map((data, index) => {
                 return (
                     <div key={data.name}>
@@ -39,7 +39,7 @@ const Search = () => {
                     </div>
                 )
             })}
-        </div>
+        </StyledDiv>
     )
     return (
         <>
@@ -66,10 +66,10 @@ const Search = () => {
                     transition: 'transform 0.3s ease-in-out',
                 }}
             >
-                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', pt: 4, px: 0 }}>
+                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4, px: 0 }}>
                     <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography sx={{ mb: 3, color: 'gray' }}>
+                        <div style={{display:'flex',justifyContent:'space-between'}}>
+                            <Typography sx={{ marginbottom: 3, color: 'gray' }}>
                                 ค้นหาหุ้นกู้ตลาดรอง
                             </Typography>
                             <CloseIcon sx={{ cursor: 'pointer' }} onClick={() => setOpen(false)} />
@@ -90,7 +90,6 @@ const Search = () => {
                         />
                         {searchListContainer}
                     </div>
-
                 </Container>
             </Modal>
         </>
