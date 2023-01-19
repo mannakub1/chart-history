@@ -1,4 +1,4 @@
-import { StyledSearch, StyledSearchModal, StyledDiv,  } from './style'
+import { StyledSearch, StyledSearchModal, StyledDiv, } from './style'
 import { mockupData } from '../../constants/mockupData/mockupData'
 import { useState } from 'react'
 import { Divider, ListItemButton, InputAdornment, ListItemText, Modal, Typography, Button } from '@mui/material'
@@ -6,18 +6,25 @@ import searchIcon from '../../constants/icons/ic_search.svg';
 import CloseIcon from '@mui/icons-material/Close';
 import { Container } from '@mui/system'
 
-const Search = () => {
+const Search = ({ setshowComponents, showComponents }) => {
     const [isShowSearchList, setIsShowSearchList] = useState(true);
     const [bond, SetBond] = useState(null)
     const [searchValue, setSearchValue] = useState('')
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => {
+        setOpen(true)
+        setshowComponents(false)
+    };
+    const handleClose = () => {
+        setOpen(false)
+        setshowComponents(true)
+    };
     const hadleListItemClick = (name) => {
         SetBond(name)
         setOpen(false)
         setIsShowSearchList(false)
         setSearchValue('')
+        setshowComponents(true)
     }
     const handleSearchChange = (e) => {
         setSearchValue(e.target.value)
@@ -66,13 +73,17 @@ const Search = () => {
                     transition: 'transform 0.3s ease-in-out',
                 }}
             >
-                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4, px: 0 }}>
+                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4 }}>
                     <div>
-                        <div style={{display:'flex',justifyContent:'space-between'}}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography sx={{ marginBottom: 3, color: 'gray' }}>
                                 ค้นหาหุ้นกู้ตลาดรอง
                             </Typography>
-                            <CloseIcon sx={{ cursor: 'pointer' }} onClick={() => setOpen(false)} />
+                            <CloseIcon sx={{ cursor: 'pointer' }} onClick={() => {
+                                setOpen(false)
+                                setshowComponents(true)
+                            }
+                            } />
                         </div>
                         <StyledSearchModal
                             onClick={handleSearchClick}
