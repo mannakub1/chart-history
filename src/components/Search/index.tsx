@@ -28,10 +28,6 @@ const Search = () => {
         setIsShowSearchList(true)
         setSearchValue(``)
     }
-    const bondName = (
-        // Use sx props for demonstration.
-        <Typography sx={{ textAlign: 'center', m: 2 }}>You have been selected {bond}</Typography>
-    )
     let searchListContainer = (
         // Use inline style for demonstration.
         <div style={{ marginTop: '1rem' }}>
