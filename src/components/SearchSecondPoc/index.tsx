@@ -69,7 +69,7 @@ const Search = () => {
                 <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4, px: 0 }}>
                     <div>
                         <div style={{display:'flex',justifyContent:'space-between'}}>
-                            <Typography sx={{ marginbottom: 3, color: 'gray' }}>
+                            <Typography sx={{ marginBottom: 3, color: 'gray' }}>
                                 ค้นหาหุ้นกู้ตลาดรอง
                             </Typography>
                             <CloseIcon sx={{ cursor: 'pointer' }} onClick={() => setOpen(false)} />
