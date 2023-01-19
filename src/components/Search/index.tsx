@@ -1,5 +1,4 @@
 import { StyledSearch } from './style'
-import { SearchProps } from './type'
 import { mockupData } from '../../constants/mockupData/mockupData'
 import Card from '../common/Card'
 import { useState, useEffect, useRef } from 'react'
