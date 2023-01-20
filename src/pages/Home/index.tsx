@@ -1,22 +1,12 @@
-import Chip from '../../components/common/Chip';
-import Card from '../../components/common/Card';
-import { Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import BondCard from '../../components/BondCard';
 
 const Home = () => {
   return (
-    <div style={{padding: 16}}>
-      <Chip label='2.25%' />
-      <Card>
-        <Typography>
-          Sample Text header inside card component.
-        </Typography>
-      </Card>
-      
-      <BondCard name="Man" detail="test bond card" percent="2.25%" />
-
-      </div>
+    <Container maxWidth='xs' style={{ padding: 16 }}>
+      <BondCard name="PTTC237A" BondImageUrl="ImageUrl" description="หุ้นกู้เพื่ออนุรักษ์สิ่งแวดล้อมของบริษัท ปตท. จำกัด (มหาชน) ครั้งที่ 1/2563 ครบกำหนดไถ่ถอนปี พ.ศ. 2566" interestRate="2.25%" />
+    </Container>
   );
-} 
+}
 
 export default Home
