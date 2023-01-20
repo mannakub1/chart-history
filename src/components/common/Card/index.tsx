@@ -7,7 +7,7 @@ const Card = (props: CardProps) => {
         className
     } = props
     return (
-        <StyledCard className={className}>
+        <StyledCard className={className} >
             {children}
         </StyledCard>
     )

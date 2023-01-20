@@ -1,7 +1,7 @@
 import { StyledSearch, StyledSearchModal, StyledDiv, } from './style'
 import { mockupData } from '../../constants/mockupData/mockupData'
 import { useState } from 'react'
-import { Divider, ListItemButton, InputAdornment, ListItemText, Modal, Typography, Button } from '@mui/material'
+import { Divider, ListItemButton, List, InputAdornment, ListItemText, Modal, Typography, Button } from '@mui/material'
 import searchIcon from '../../constants/icons/ic_search.svg';
 import CloseIcon from '@mui/icons-material/Close';
 import { Container } from '@mui/system'
@@ -35,24 +35,28 @@ const Search = ({ setshowComponents, showComponents }) => {
     }
     let searchListContainer = (
         // Use inline style for demonstration.
-        <StyledDiv>
-            {mockupData.map((data, index) => {
-                return (
-                    <div key={data.name}>
-                        <ListItemButton sx={{ border: 0 }} disableTouchRipple>
-                            <ListItemText primary={data.name} secondary={data.description} onClick={() => { hadleListItemClick(data.name) }} />
-                        </ListItemButton>
-                        {index === mockupData.length - 1 ? null : <Divider />}
-                    </div>
-                )
-            })}
-        </StyledDiv>
+      
+            <List sx={{ overflow: 'auto',maxHeight: '450px'  }}>
+                {mockupData.map((data, index) => {
+                    return (
+                        <div key={data.name}>
+                            <ListItemButton sx={{ border: 0 }} disableTouchRipple>
+                                <ListItemText primary={data.name} secondary={data.description} onClick={() => { hadleListItemClick(data.name) }} />
+                            </ListItemButton>
+                            {index === mockupData.length - 1 ? null : <Divider />}
+                        </div>
+                    )
+                })}
+            </List >
+
+
     )
     return (
         <>
             <StyledSearch
                 onClick={handleOpen}
                 fullWidth
+                value={bond}
                 placeholder='ค้นหาหุ้นกู้ตลาดรอง'
                 InputProps={{
                     startAdornment: (
@@ -73,7 +77,7 @@ const Search = ({ setshowComponents, showComponents }) => {
                     transition: 'transform 0.3s ease-in-out',
                 }}
             >
-                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4 }}>
+                <Container maxWidth='xs' sx={{ bgcolor: 'white', borderRadius: '12px 12px 0px 0px', paddingTop: 4}}>
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography sx={{ marginBottom: 3, color: 'gray' }}>

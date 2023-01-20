@@ -1,5 +1,6 @@
 export type BondCardProps = {
     name: string
-    detail: string
+    description: string
     percent: string
+    footerTitle: string
 }
