@@ -14,22 +14,27 @@ const BondCard = (props: BondCardProps) => {
                     <StyledAvatar variant="square" src={imageUrl} />
                 </StyledAvartarContainer>
                 <StyledBondContentContainer>
-                    <Text color={BLACK_212121} fontWeight={600}>
+                    <Text color={BLACK_212121} weight={600}>
                         {title}
                     </Text>
-                    <StyledBondDescriptionText>
+                    <StyledBondDescriptionText lineHeight="21px"
+                    size="14px"
+                    color={GRAY_838383}
+                    >
                         {description}
                     </StyledBondDescriptionText>
                 </StyledBondContentContainer>
             </StyledCardContentContainer>
             <StyledCardFooter>
                 <div>
-                    <Text fontWeight={600}>
+                    <Text weight={600}>
                         {process.env.REACT_APP_TYPE === 'saving' ? "ดอกเบี้ยต่อปี" : "อัตราดอกเบี้ยหน้าตั๋ว"}
                     </Text>
-                    <Text fontSize={'14px'} color={GRAY_838383}>
-                        {rateType === '01' ? 'คงที่' : rateType === '02' ? 'ลอยตัว' : rateType === '03' ? 'ขั้นบันได' : null}
-                    </Text>
+                    {rateType === '03' &&
+                        <Text size={'14px'} color={GRAY_838383}>
+                            ขั้นบันได
+                        </Text>
+                    }
                 </div>
                 <div>
                     <Chip label={interestRate} />

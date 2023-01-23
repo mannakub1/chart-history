@@ -1,7 +1,7 @@
-export type textProps = {
-    children?: React.ReactNode|string;
-    fontWeight?: number
+export type TextProps = {
+    children: React.ReactNode|string;
+    weight?: number
     color?: string
-    fontSize?: string
+    size?: string
     lineHeight?:string
 }
