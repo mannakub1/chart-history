@@ -1,5 +1,5 @@
 export type BondCardProps = {
-    name: string
+    title: string
     description: string
     interestRate: string
     imageUrl:string

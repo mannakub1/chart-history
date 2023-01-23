@@ -1,22 +1,12 @@
 
 import Chip from "../common/Chip"
-import env from "react-dotenv";
-import { StyledCard, StyledInterestRateSubTitle, StyledAvatar, StyledBondDescriptionText, StyledBondContentContainer, StyledBondTitleText, StyledCardActions, StyledAvartarContainer, StyledCardContentContainer, StyledInterestRateTitle } from "./style"
+import { BLACK_212121, GRAY_838383 } from "../../constants/colors/colors"
+import { StyledCard, StyledAvatar, StyledBondDescriptionText, StyledBondContentContainer, StyledCardFooter, StyledAvartarContainer, StyledCardContentContainer } from "./style"
 import { BondCardProps } from "./type"
+import Text from "../common/Text";
 
 const BondCard = (props: BondCardProps) => {
-    const { name, description, interestRate, imageUrl, rateType } = props
-    const bondType = env.REACT_APP_BOND_TYPE
-    const rateTypeText = () => {
-        switch (rateType) {
-            case "01":
-                return "คงที่";
-            case "02":
-                return "ลอยตัว";
-            case "03":
-                return "ขั้นบันได";
-        }
-    }
+    const { title, description, interestRate, imageUrl, rateType } = props
     return (
         <StyledCard>
             <StyledCardContentContainer>
@@ -24,26 +14,27 @@ const BondCard = (props: BondCardProps) => {
                     <StyledAvatar variant="square" src={imageUrl} />
                 </StyledAvartarContainer>
                 <StyledBondContentContainer>
-                    <StyledBondTitleText>{name}</StyledBondTitleText>
-                    <StyledBondDescriptionText >{description}</StyledBondDescriptionText>
+                    <Text color={BLACK_212121} fontWeight={600}>
+                        {title}
+                    </Text>
+                    <StyledBondDescriptionText>
+                        {description}
+                    </StyledBondDescriptionText>
                 </StyledBondContentContainer>
             </StyledCardContentContainer>
-            <StyledCardActions>
+            <StyledCardFooter>
                 <div>
-                    {bondType === 'saving' ? <StyledInterestRateTitle>
-                        ดอกเบี้ยต่อปี
-                    </StyledInterestRateTitle> : <StyledInterestRateTitle>
-                        อัตราดอกเบี้ยหน้าตั๋ว
-                    </StyledInterestRateTitle>}
-                    {rateType ? <StyledInterestRateSubTitle>
-                        {rateTypeText()}
-                    </StyledInterestRateSubTitle> : null}
-
+                    <Text fontWeight={600}>
+                        {process.env.REACT_APP_TYPE === 'saving' ? "ดอกเบี้ยต่อปี" : "อัตราดอกเบี้ยหน้าตั๋ว"}
+                    </Text>
+                    <Text fontSize={'14px'} color={GRAY_838383}>
+                        {rateType === '01' ? 'คงที่' : rateType === '02' ? 'ลอยตัว' : rateType === '03' ? 'ขั้นบันได' : null}
+                    </Text>
                 </div>
                 <div>
                     <Chip label={interestRate} />
                 </div>
-            </StyledCardActions>
+            </StyledCardFooter>
         </StyledCard >
     )
 }

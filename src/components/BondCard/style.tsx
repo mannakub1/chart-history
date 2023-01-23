@@ -1,8 +1,9 @@
 
 import styled from "styled-components"
 import Card from "../common/Card"
-import { GRAY_F8F8F8, BLACK_212121, GRAY_838383 } from "../../constants/colors/colors"
-import { Avatar, CardActions, Typography } from "@mui/material"
+import { GRAY_F8F8F8, GRAY_838383 } from "../../constants/colors/colors"
+import { Avatar, CardActions } from "@mui/material"
+import Text from "../common/Text"
 
 export const StyledAvatar = styled(Avatar)`
   width:32px!important;
@@ -12,7 +13,7 @@ export const StyledAvatar = styled(Avatar)`
 export const StyledAvartarContainer = styled.div`
   display: flex;
   align-items:center;
-  padding-right:6px;
+  padding-right:8px;
   padding-left:16px;
 `
 
@@ -21,16 +22,7 @@ export const StyledBondContentContainer = styled.div`
   max-height:73px;
 `
 
-export const StyledBondTitleText = styled(Typography)`
-  color: ${BLACK_212121}
-  font-size: 16px!important;
-  &.css-m5f4gq-MuiTypography-root {
-    font-weight: 600!important;
-    line-height: 24px!inportant;
-  }
-`
-
-export const StyledBondDescriptionText = styled(Typography)`
+export const StyledBondDescriptionText = styled(Text)`
   color: ${GRAY_838383};
   line-height: 21px!important;
   font-size: 14px!important;
@@ -48,29 +40,18 @@ export const StyledCard = styled(Card)`
   max-height:168px
 `
 
-export const StyledCardActions = styled(CardActions)`
-  background-color:${GRAY_F8F8F8};
-  display:flex;
-  justify-content: space-between;
-  padding: 8px 16px 8px 16px!important;
-  align-items: start!important;
+export const StyledCardFooter = styled(CardActions)`
+  &.css-1t6e9jv-MuiCardActions-root{
+    padding: 8px 16px 8px 16px;
+    align-items: start;
+    background-color:${GRAY_F8F8F8};
+    display:flex;
+    justify-content: space-between;
+  }
 `
 
 export const StyledCardContentContainer = styled.div`
   display:flex;
 `
 
-export const StyledInterestRateTitle = styled(Typography)`
-  font-weight: 600!important;
-  font-size: 16px!important;
-`
-
-export const StyledInterestRateSubTitle = styled(Typography)`
-  font-weight: 400!important;
-  font-size: 14px!important;
-  &.css-m5f4gq-MuiTypography-root{
-    color: ${GRAY_838383};
-    font-weight: 400;
-  }
-`
 
