@@ -1,35 +1,47 @@
-import { StyledCard } from "./style"
-import { BondCardProps } from "./type"
+
 import Chip from "../common/Chip"
-import { Typography, CardActions, Avatar } from "@mui/material"
+import { BLACK_212121, GRAY_838383 } from "../../constants/colors/colors"
+import { StyledCard, StyledAvatar, StyledBondDescriptionText, StyledBondContentContainer, StyledCardFooter, StyledAvartarContainer, StyledCardContentContainer } from "./style"
+import { BondCardProps } from "./type"
+import Text from "../common/Text";
 
 const BondCard = (props: BondCardProps) => {
-    const { name, description, percent, footerTitle, } = props
-
-    return <StyledCard>
-        <div style={{ display: 'flex', padding: '16px' }}>
-            <div style={{ alignSelf: 'center' }}>
-                <Avatar>B</Avatar>
-            </div>
-            <div style={{ padding: '0 1rem 0 1rem' }}>
-                <Typography sx={{ fontWeight: 'Bold' }}>{name}</Typography>
-                <Typography variant='caption' sx={{ color: 'gray' }}>{description}</Typography>
-            </div>
-        </div>
-        <CardActions sx={{ backgroundColor: '#F8F8F8', padding: '5px 16px 5px 16px' }}>
-            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div >
-                    <Typography sx={{fontWeight: '600',fontSize:'16px'}}>{footerTitle}</Typography>
+    const { title, description, interestRate, imageUrl, rateType } = props
+    return (
+        <StyledCard>
+            <StyledCardContentContainer>
+                <StyledAvartarContainer>
+                    <StyledAvatar variant="square" src={imageUrl} />
+                </StyledAvartarContainer>
+                <StyledBondContentContainer>
+                    <Text color={BLACK_212121} weight={600}>
+                        {title}
+                    </Text>
+                    <StyledBondDescriptionText lineHeight="21px"
+                    size="14px"
+                    color={GRAY_838383}
+                    >
+                        {description}
+                    </StyledBondDescriptionText>
+                </StyledBondContentContainer>
+            </StyledCardContentContainer>
+            <StyledCardFooter>
+                <div>
+                    <Text weight={600}>
+                        {process.env.REACT_APP_TYPE === 'saving' ? "ดอกเบี้ยต่อปี" : "อัตราดอกเบี้ยหน้าตั๋ว"}
+                    </Text>
+                    {rateType === '03' &&
+                        <Text size={'14px'} color={GRAY_838383}>
+                            ขั้นบันได
+                        </Text>
+                    }
                 </div>
                 <div>
-                    <Chip label={percent} />
+                    <Chip label={interestRate} />
                 </div>
-
-            </div>
-
-        </CardActions>
-
-    </StyledCard>
+            </StyledCardFooter>
+        </StyledCard >
+    )
 }
 
 export default BondCard
