@@ -7,14 +7,15 @@ export const StyledSearch = styled(TextField)`
       border-radius:8px;
       box-shadow: 0px 12px 24px -8px rgba(0, 0, 0, 0.1);
       & .MuiOutlinedInput-root {
+        
         & fieldset {
-          border-color: white;
+          border: 1px solid #E0E0E0;
         }
         &:hover fieldset {
-          border-color: white;
+          border: 1px solid #E0E0E0;
         }
         &.Mui-focused fieldset {
-          border-color: white;
+          border: 1px solid #E0E0E0;
         }
       }
      
@@ -28,7 +29,6 @@ export const StyledCloseIcon = styled(CloseIcon)`
   cursor: pointer;
   color: gray;
 `
-export const StyledClearIcon = styled
 
 export const StyledList = styled(List)`
  &.MuiList-root{
