@@ -19,11 +19,12 @@ const Search = (props: SearchProps) => {
         setIsShowClearButton(false)
         setShowComponents(true)
     }, [setShowComponents])
+
     const handleClearButtonClick = useCallback(() => {
         setSearchValue('')
         setIsShowClearButton(false)
-
     }, [setSearchValue])
+
     const hadleListItemClick = useCallback((name) => {
         setIsShowSearchList(false)
         setSearchValue(`${name} `)
@@ -40,7 +41,7 @@ const Search = (props: SearchProps) => {
     const handleSearchClick = useCallback((event) => {
             setIsShowSearchList(true)
             setShowComponents(false)
-            setSearchValue(``)
+            setSearchValue('')
     }, [setShowComponents, setIsShowSearchList])
 
     return (
