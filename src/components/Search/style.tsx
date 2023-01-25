@@ -8,22 +8,6 @@ export const FlexRow = styled.div`
   flex-direction: row;
 `;
 
-export const StyledList = styled(List)`
- &.MuiList-root{
-  overflow : auto;
-  max-height :713px;
-  background-color : white;
-  border-radius : 8px;
- }
-`
-export const StyledButtonIcon = styled(IconButton)`
-  z-index : 100;
-`
-export const StyledSearchContainer = styled.div`
-  margin-bottom : 2rem;
-  display : flex;
-  align-items : center;
-`
 export const StyleLink = styled(Link)`
   padding-left: 8px;
 
