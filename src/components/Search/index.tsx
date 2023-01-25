@@ -1,88 +1,137 @@
-import { StyledSearch, StyledList, StyledButtonIcon ,StyledSearchContainer} from './style'
-import { mockupData } from '../../constants/mockupData/mockupData'
-import { SearchProps } from './type'
-import { useState, useCallback } from 'react'
-import { Divider, ListItemButton, InputAdornment, ListItemText, Link, Typography } from '@mui/material'
-import searchIcon from '../../constants/icons/ic_search.svg';
-import clearIcon from '../../constants/icons/ic_close-circle.svg';
+import { useState, useCallback } from "react";
+import { InputAdornment, IconButton } from "@mui/material";
+
+import { mockSearch } from "../../constants/mockup/data";
+import searchIcon from "../../constants/icons/ic_search.svg";
+import clearIcon from "../../constants/icons/ic_close-circle.svg";
+import Text from "../common/Text";
+import ListSearch from "./component/ListSearch.tsx";
+
+import { StyleSearch, StyleSearchContainer, StyleLink, FlexRow } from "./style";
+import { SearchProps } from "./type";
 
 const Search = (props: SearchProps) => {
-    const { setShowComponents } = props
-    const [isShowSearchList, setIsShowSearchList] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-    const [isShowClearButton, setIsShowClearButton] = useState(false)
+  const { setShowComponents, onSearch } = props;
+  const [isShowSearchList, setIsShowSearchList] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [warning, setWarning] = useState<string | undefined>(undefined);
+  const [isShowIconClear, setIsShowIconClear] = useState(false);
 
-    const handleCloseIconClick = useCallback((e) => {
-        e.stopPropagation();
-        setSearchValue('')
-        setIsShowSearchList(false)
-        setIsShowClearButton(false)
-        setShowComponents(true)
-    }, [setShowComponents])
+  const onCloseSearch = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setSearchValue("");
+      setIsShowSearchList(false);
+      setIsShowIconClear(false);
+      setShowComponents(true);
+      setWarning(undefined);
+    },
+    [
+      setSearchValue,
+      setShowComponents,
+      setIsShowSearchList,
+      setIsShowIconClear,
+      setWarning,
+    ]
+  );
 
-    const handleClearButtonClick = useCallback(() => {
-        setSearchValue('')
-        setIsShowClearButton(false)
-    }, [setSearchValue])
+  const onClearSearchValue = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setSearchValue("");
+      setIsShowIconClear(false);
+      setWarning(undefined);
+    },
+    [setSearchValue, setIsShowIconClear, setWarning]
+  );
 
-    const hadleListItemClick = useCallback((name) => {
-        setIsShowSearchList(false)
-        setSearchValue(`${name} `)
-        setShowComponents(true)
-    }, [setShowComponents])
+  const onClickListItem = useCallback(
+    (name: string) => {
+      setIsShowSearchList(false);
+      setSearchValue(name);
+      setShowComponents(true);
+      setIsShowIconClear(false);
+    },
+    [setSearchValue, setShowComponents, setIsShowSearchList, setIsShowIconClear]
+  );
 
-    const handleSearchChange = useCallback((e) => {
-        setSearchValue(e.target.value);
-        if (e.target.value !== '') {
-            setIsShowClearButton(true)
-        }
-    }, [setIsShowClearButton])
+  const onSearchChange = useCallback(
+    (e) => {
+      const newValue = e.target.value;
 
-    const handleSearchClick = useCallback((event) => {
-            setIsShowSearchList(true)
-            setShowComponents(false)
-            setSearchValue('')
-    }, [setShowComponents, setIsShowSearchList])
+      if (newValue.length > 50) {
+        setWarning("ไม่สามารถค้นหาหุ้นที่ชื่อยาวเกิน 50 ตัวอักษรได้");
+      } else {
+        setWarning(undefined);
+      }
 
-    return (
-        <>
-            <StyledSearchContainer>
-                <StyledSearch
-                    onClick={handleSearchClick}
-                    onChange={handleSearchChange}
-                    fullWidth placeholder='ค้นหาหุ้นกู้ตลาดรอง'
-                    value={searchValue}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <img src={searchIcon} alt="Search" />
-                            </InputAdornment>
-                        ),
-                        endAdornment: (
-                            isShowClearButton && <InputAdornment position="end">
-                                <StyledButtonIcon onClick={handleClearButtonClick} >
-                                    <img src={clearIcon} alt="Clear" />
-                                </StyledButtonIcon>
-                            </InputAdornment>)
-                    }}
-                />
-                {isShowSearchList && <Link sx={{ pl: "8px" }} onClick={handleCloseIconClick}><Typography>ยกเลิก</Typography></Link>}
+      if (newValue !== "") {
+        setIsShowIconClear(true);
+        setSearchValue(newValue);
+        onSearch?.(newValue);
+      }
+    },
+    [setSearchValue, setIsShowIconClear, setWarning, onSearch]
+  );
 
-            </StyledSearchContainer >
-            {isShowSearchList && <StyledList>
-                {mockupData.map((data, index) => {
-                    return (
-                        <div key={data.name}>
-                            <ListItemButton disableTouchRipple>
-                                <ListItemText primary={data.name} secondary={data.description} onClick={() => { hadleListItemClick(data.name) }} />
-                            </ListItemButton>
-                            {index === mockupData.length - 1 ? null : <Divider />}
-                        </div>
-                    )
-                })}
-            </StyledList>}
-        </>
-    );
+  const onSearchClick = useCallback(
+    (value) => {
+      setIsShowSearchList(true);
+      setShowComponents(false);
+      setSearchValue(value);
+      if (value !== "") {
+        setIsShowIconClear(true);
+      }
+    },
+    [setSearchValue, setShowComponents, setIsShowSearchList, setIsShowIconClear]
+  );
+
+  return (
+    <>
+      <StyleSearchContainer>
+        <FlexRow>
+          <StyleSearch
+            onClick={onSearchClick.bind(null, searchValue)}
+            onChange={onSearchChange}
+            fullWidth
+            placeholder="ค้นหาหุ้นกู้ตลาดรอง"
+            value={searchValue}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <img src={searchIcon} alt="Search" />
+                </InputAdornment>
+              ),
+              endAdornment: isShowIconClear && (
+                <InputAdornment position="end">
+                  <IconButton onClick={onClearSearchValue}>
+                    <img src={clearIcon} alt="Clear" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {isShowSearchList && (
+            <StyleLink onClick={onCloseSearch}>
+              <Text>ยกเลิก</Text>
+            </StyleLink>
+          )}
+        </FlexRow>
+
+        {warning && (
+          <FlexRow>
+            <Text color={"red"} size={"12px"}>
+              {warning}
+            </Text>
+          </FlexRow>
+        )}
+      </StyleSearchContainer>
+      {isShowSearchList && (
+        <ListSearch list={mockSearch} onClickItem={onClickListItem} />
+      )}
+    </>
+  );
 };
 
-export default Search
+export default Search;

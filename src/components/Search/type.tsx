@@ -1,4 +1,5 @@
 export type SearchProps = {
-    showComponents: boolean,
-    setShowComponents: React.Dispatch<React.SetStateAction<boolean>>
-}
+  onSearch?: (q: string) => void;
+  setShowComponents: (bool: boolean) => void;
+  showComponents: boolean;
+};
