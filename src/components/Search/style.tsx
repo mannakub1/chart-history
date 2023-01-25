@@ -9,13 +9,13 @@ export const StyledSearch = styled(TextField)`
       & .MuiOutlinedInput-root {
         
         & fieldset {
-          border: 1px solid #E0E0E0;
+          border-color: white;
         }
         &:hover fieldset {
-          border: 1px solid #E0E0E0;
+          border-color: white;
         }
         &.Mui-focused fieldset {
-          border: 1px solid #E0E0E0;
+          border-color: white;
         }
       }
      
