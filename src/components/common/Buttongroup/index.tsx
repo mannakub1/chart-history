@@ -1,6 +1,5 @@
 import { StyledButtonGroup, StyledButton } from './style'
 import { ButtonGroupProps } from './type';
-import { useCallback } from 'react';
 
 export const ButtonGroup = (props: ButtonGroupProps) => {
     const { selected, setSelected } = props
