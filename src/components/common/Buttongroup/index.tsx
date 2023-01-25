@@ -5,9 +5,9 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
     const { selected, setSelected } = props
     const buttonGroupByTime = ['1 สัปดาห์', '1 เดือน', '3 เดือน'];
 
-    const handleSelected = (_event, updateFormats) => {
-        if (updateFormats != null) {
-            setSelected(updateFormats);
+    const handleSelected = (_event, value) => {
+        if (value != null) {
+            setSelected(value);
         }
     }
     return (
