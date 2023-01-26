@@ -1,22 +1,40 @@
+import { useCallback, useState } from "react";
+
 import Search from "../../components/Search";
-import { useState } from "react";
 import ButtonGroup from "../../components/common/Buttongroup";
 import BondCard from "../../components/BondCard";
-import { Container } from "./style";
+
+import { ContainerHeader, ContainerBody } from "./style";
+
+const buttonGroupValue = [
+  { label: "1 สัปดาห์", value: "oneWeek" },
+  { label: "1 เดือน", value: "oneMonth" },
+  { label: "3 เดือน", value: "threeMonth" },
+];
 
 const Home = () => {
-  const [buttonGroupValue] = useState([
-    { label: '1 สัปดาห์', value: 'oneWeek' },
-    { label: '1 เดือน', value: 'oneMonth' },
-    { label: '3 เดือน', value: 'threeMonth' }
-  ])
-  const [timeSelected, setTimeSelected] = useState('oneMonth')
   const [showComponents, setShowComponents] = useState(true);
+  const [defaultValue, setDefaultValue] = useState("oneMonth");
+
+  const onSearchChange = useCallback(
+    (value: boolean) => {
+      setShowComponents(value);
+    },
+    [setShowComponents]
+  );
+
+  const onClickButtonGroup = useCallback(
+    (selectedValue: string) => {
+      setDefaultValue(selectedValue);
+    },
+    [setDefaultValue]
+  );
+
   return (
     <>
-      <Container>
+      <ContainerHeader>
         <Search
-          setShowComponents={setShowComponents}
+          setShowComponents={onSearchChange}
           showComponents={showComponents}
         />
         {showComponents && (
@@ -27,11 +45,16 @@ const Home = () => {
             rateType={"03"}
           />
         )}
-      </Container>
+      </ContainerHeader>
       {showComponents && (
-        <div style={{ backgroundColor: 'white', padding: '1rem' }}>
-          <ButtonGroup timeSelected={timeSelected} setTimeSelected={setTimeSelected} buttonGroupValue={buttonGroupValue} />
-        </div>)}
+        <ContainerBody>
+          <ButtonGroup
+            defaultValue={defaultValue}
+            onSelected={onClickButtonGroup}
+            values={buttonGroupValue}
+          />
+        </ContainerBody>
+      )}
     </>
   );
 };

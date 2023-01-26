@@ -1,10 +1,10 @@
 export type ButtonGroupProps = {
-    buttonGroupValue: ValueType[];
-    timeSelected: string;
-    setTimeSelected: (value: string) => void;
+  values: ValueType[];
+  defaultValue: string;
+  onSelected?: (value: string) => void;
 };
 
 export type ValueType = {
-    label: string;
-    value: string;
-}
+  label: string;
+  value: string;
+};
