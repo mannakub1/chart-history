@@ -58,6 +58,7 @@ const Search = (props: SearchProps) => {
   const onSearchChange = useCallback(
     (e) => {
       const newValue = e.target.value;
+      setSearchValue(newValue);
 
       if (newValue.length > 50) {
         setWarning("ไม่สามารถค้นหาหุ้นที่ชื่อยาวเกิน 50 ตัวอักษรได้");
@@ -67,7 +68,6 @@ const Search = (props: SearchProps) => {
 
       if (newValue !== "") {
         setIsShowIconClear(true);
-        setSearchValue(newValue);
         onSearch?.(newValue);
       }
     },
