@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 
 import Search from "../../components/Search";
-import ButtonGroup from "../../components/common/Buttongroup";
+import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
 
 import { ContainerHeader, ContainerBody } from "./style";
+import Overall from "../../components/Overall";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
@@ -12,6 +13,11 @@ const buttonGroupValue = [
   { label: "3 เดือน", value: "threeMonth" },
 ];
 
+const overallList = [
+  { description: "1 สัปดาห์", value: -4.0 },
+  { description: "1 เดือน", value: 4.0 },
+  { description: "3 เดือน", value: 8.0 },
+];
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [defaultValue, setDefaultValue] = useState("oneMonth");
@@ -48,11 +54,14 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
-          <ButtonGroup
-            defaultValue={defaultValue}
-            onSelected={onClickButtonGroup}
-            values={buttonGroupValue}
-          />
+          <div>
+            <ButtonGroup
+              defaultValue={defaultValue}
+              onSelected={onClickButtonGroup}
+              values={buttonGroupValue}
+            />
+          </div>
+          <Overall values={overallList} />
         </ContainerBody>
       )}
     </>
