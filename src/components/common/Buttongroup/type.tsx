@@ -1,5 +1,10 @@
 export type ButtonGroupProps = {
+    buttonGroupValue: ValueType[];
     timeSelected: string;
     setTimeSelected: (value: string) => void;
-    buttonGroupValue: { label: string, value: string }[];
 };
+
+export type ValueType = {
+    label: string;
+    value: string;
+}
