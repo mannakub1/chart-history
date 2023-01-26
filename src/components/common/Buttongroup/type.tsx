@@ -1,4 +1,5 @@
 export type ButtonGroupProps = {
-    selected: string;
-    setSelected: React.Dispatch<React.SetStateAction<string>>
+    timeSelected: string;
+    setTimeSelected: (value: string) => void;
+    buttonGroupValue: { label: string, value: string }[];
 };

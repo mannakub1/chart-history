@@ -1,30 +1,31 @@
 import { StyledButtonGroup, StyledButton } from './style'
 import { ButtonGroupProps } from './type';
+import { useCallback } from 'react';
 
 export const ButtonGroup = (props: ButtonGroupProps) => {
-    const { selected, setSelected } = props
-    const buttonGroupByTime = ['1 สัปดาห์', '1 เดือน', '3 เดือน'];
+    const { timeSelected, setTimeSelected, buttonGroupValue } = props
 
-    const handleSelected = (_event, value) => {
+    const handleSelected = useCallback((_event, value) => {
         if (value != null) {
-            setSelected(value);
+            setTimeSelected(value);
         }
-    }
+    }, [setTimeSelected])
     return (
         <StyledButtonGroup
-            value={selected}
+            value={timeSelected}
             onChange={handleSelected}
             exclusive
         >
-            {buttonGroupByTime.map((buttonLabel) => {
+            {buttonGroupValue.map((buttonGroupValue) => {
                 return (
                     <StyledButton
+                        key={buttonGroupValue.value}
                         disableFocusRipple={true}
                         disableRipple={true}
                         size="small"
-                        value={buttonLabel}
+                        value={buttonGroupValue.value}
                     >
-                        {buttonLabel}
+                        {buttonGroupValue.label}
                     </StyledButton>
                 )
             })}
