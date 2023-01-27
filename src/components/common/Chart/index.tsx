@@ -1,5 +1,10 @@
 import ReactEcharts from "echarts-for-react";
 import Text from "../Text/index";
+import {
+  BLUE_025BB7,
+  GRAY_E0E0E0,
+  GRAY_F2F4F7,
+} from "../../../constants/colors/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
 import { StyledTextDiv, StyledChartDiv } from "./style";
 import { useCallback, useState } from "react";
@@ -8,36 +13,24 @@ const Chart = (props: ChartProps) => {
   const { data, title } = props;
 
   const createChartData = useCallback((data) => {
-    let dataArray: DataArray = [];
-    let dateArray: DateArray = [];
-    data.forEach((d) => {
-      dateArray.push(d.date);
-    });
-    data.forEach((d) => {
-      dataArray.push(d.value);
-    });
-    return {
-      dataArray,
-      dateArray,
-    };
+    const dataArray: DataArray = data.map((d) => d.value);
+    const dateArray: DateArray = data.map((d) => d.date);
+    return { dataArray, dateArray };
   }, []);
 
   const calMaximumYaxis = useCallback((data) => {
-    let sumOfData = 0;
-    data.forEach((d) => {
-      sumOfData += d;
-    });
-    return sumOfData / data.length + 2;
+    return data.reduce((a, b) => a + b, 0) / data.length + 2;
   }, []);
 
-  const [xAxis] = useState(createChartData(data).dateArray);
-  const [yAxis] = useState(createChartData(data).dataArray);
-  const [maximumXaxisValue] = useState(calMaximumYaxis(yAxis));
-
+  const [chartData] = useState({
+    xAxis: createChartData(data).dateArray,
+    yAxis: createChartData(data).dataArray,
+    maximumXaxisValue: calMaximumYaxis(createChartData(data).dataArray),
+  });
   const option = {
     tooltip: {
       trigger: "item",
-      backgroundColor: "#E0E0E0",
+      backgroundColor: GRAY_E0E0E0,
       borderWidth: 0,
       axisPointer: {
         type: "none",
@@ -71,7 +64,7 @@ const Chart = (props: ChartProps) => {
       type: "category",
       boundaryGap: false,
       animation: false,
-      data: xAxis,
+      data: chartData.xAxis,
       axisLabel: {
         align: "center",
         textStyle: {
@@ -106,12 +99,12 @@ const Chart = (props: ChartProps) => {
       splitLine: {
         show: true,
         lineStyle: {
-          color: "#F2F4F7",
+          color: GRAY_F2F4F7,
           width: "1",
         },
       },
       min: 0,
-      max: maximumXaxisValue,
+      max: chartData.maximumXaxisValue,
     },
 
     dataZoom: [
@@ -140,7 +133,7 @@ const Chart = (props: ChartProps) => {
         type: "line",
         connectNulls: true,
         nullPointMode: "break",
-        data: yAxis,
+        data: chartData.yAxis,
         smooth: true,
         animation: false,
         symbolSize: 7,
@@ -150,11 +143,11 @@ const Chart = (props: ChartProps) => {
             symbol: "circle",
             symbolBorderWidth: 1,
             symbolSize: 8,
-            color: "#025BB7",
+            color: BLUE_025BB7,
           },
         },
         lineStyle: {
-          color: "#025BB7",
+          color: BLUE_025BB7,
         },
 
         areaStyle: {
@@ -167,7 +160,7 @@ const Chart = (props: ChartProps) => {
             colorStops: [
               {
                 offset: 0,
-                color: "#025BB7",
+                color: BLUE_025BB7,
               },
               {
                 offset: 1,
@@ -192,7 +185,7 @@ const Chart = (props: ChartProps) => {
               colorStops: [
                 {
                   offset: 0,
-                  color: "#025BB7",
+                  color: BLUE_025BB7,
                 },
                 {
                   offset: 1,
