@@ -3,8 +3,10 @@ import { useCallback, useState } from "react";
 import Search from "../../components/Search";
 import ButtonGroup from "../../components/common/Buttongroup";
 import BondCard from "../../components/BondCard";
+import mockupData from "../../constants/chartMockupData/chartMockupData";
 
 import { ContainerHeader, ContainerBody } from "./style";
+import Chart from "../../components/common/Chart";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
@@ -48,6 +50,7 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
+          <Chart data={mockupData} title="อัตราผลตอบแทน" />
           <ButtonGroup
             defaultValue={defaultValue}
             onSelected={onClickButtonGroup}
