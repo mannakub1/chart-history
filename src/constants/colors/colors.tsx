@@ -8,6 +8,8 @@ export const GRAY_565656 = "#565656";
 export const GRAY_E0E0E0 = "#E0E0E0";
 export const GRAY_F2F2F2 = "#F2F2F2";
 export const GRAY_F2F4F7 = "#F2F4F7";
+export const GREEN_70B412 = "#70B412";
+export const RED_DB0000 = "#DB0000";
 export const WHITE_FFFFFF = "#FFFFFF";
 
 //GRADIENT COLORS//
