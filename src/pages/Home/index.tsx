@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 import Search from "../../components/Search";
-import ButtonGroup from "../../components/common/Buttongroup";
+import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
 import mockupData from "../../constants/chartMockupData/chartMockupData";
 

@@ -1,51 +1,60 @@
+import { useMemo } from "react";
 import ReactEcharts from "echarts-for-react";
 import Text from "../Text/index";
 import {
+  BLACK_212121,
   BLUE_025BB7,
   GRAY_E0E0E0,
   GRAY_F2F4F7,
 } from "../../../constants/colors/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
 import { StyledTextDiv, StyledChartDiv } from "./style";
-import { useCallback, useState } from "react";
+import dajs from "dayjs";
+
+const createChartData = (data) => {
+  const dataArray: DataArray = data.map((d) => d.value);
+  const dateArray: DateArray = data.map((d) => d.date);
+  return { dataArray, dateArray };
+};
+
+const calMaximumYaxis = (data) => {
+  return data.reduce((a, b) => a + b, 0) / data.length + 2;
+};
 
 const Chart = (props: ChartProps) => {
   const { data, title } = props;
 
-  const createChartData = useCallback((data) => {
-    const dataArray: DataArray = data.map((d) => d.value);
-    const dateArray: DateArray = data.map((d) => d.date);
-    return { dataArray, dateArray };
-  }, []);
+  const chartData = useMemo(() => {
+    const object = createChartData(data);
 
-  const calMaximumYaxis = useCallback((data) => {
-    return data.reduce((a, b) => a + b, 0) / data.length + 2;
-  }, []);
+    return {
+      xAxis: object.dateArray,
+      yAxis: object.dataArray,
+      maximumXaxisValue: calMaximumYaxis(object.dataArray),
+    };
+  }, [data]);
 
-  const [chartData] = useState({
-    xAxis: createChartData(data).dateArray,
-    yAxis: createChartData(data).dataArray,
-    maximumXaxisValue: calMaximumYaxis(createChartData(data).dataArray),
-  });
   const option = {
     tooltip: {
-      trigger: "item",
+      trigger: "axis",
       backgroundColor: GRAY_E0E0E0,
       borderWidth: 0,
-      axisPointer: {
-        type: "none",
-      },
+      axisPointer: {},
       textStyle: {
         fontFamily: "Kanit",
         fontStyle: "normal",
         fontWeight: 400,
         fontSize: 10,
         lineHeight: 15,
+        color: BLACK_212121,
       },
       extraCssText: `
       text-align: center;
     `,
-      position: "top",
+      position: (point, params, dom, rect, size) => {
+        // fixed at top
+        return [point[0] - 30, "15%"];
+      },
       formatter: "{b}<br/>{c} %",
       shadowBlur: 0,
       shadowColor: "transparent",
@@ -72,7 +81,7 @@ const Chart = (props: ChartProps) => {
           fontFamily: "Kanit",
           fontWeight: "400",
         },
-        formatter: (value) => value.replace(" 65", ""),
+        formatter: (value) => dajs(value).format("MM/DD"),
       },
       axisLine: {
         show: false,
@@ -92,7 +101,7 @@ const Chart = (props: ChartProps) => {
         padding: [0, 0, 0, 8],
         textStyle: {
           fontSize: "12px",
-          fontFamily: "Inter",
+          fontFamily: "Kanit",
           fontWeight: "400",
         },
       },
@@ -203,6 +212,7 @@ const Chart = (props: ChartProps) => {
       },
     ],
   };
+
   return (
     <>
       <StyledTextDiv>
