@@ -3,8 +3,10 @@ import { useCallback, useState } from "react";
 import Search from "../../components/Search";
 import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
+import mockupData from "../../constants/chartMockupData/chartMockupData";
 
 import { ContainerHeader, ContainerBody } from "./style";
+import Chart from "../../components/common/Chart";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
 
@@ -65,6 +67,7 @@ const Home = () => {
       {showComponents && (
         <ContainerBody>
           <div>
+			<Chart data={mockupData} title="อัตราผลตอบแทน" />
             <ButtonGroup
               defaultValue={defaultValue}
               onSelected={onClickButtonGroup}
