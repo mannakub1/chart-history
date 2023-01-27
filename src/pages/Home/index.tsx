@@ -6,6 +6,7 @@ import BondCard from "../../components/BondCard";
 
 import { ContainerHeader, ContainerBody } from "./style";
 import Overall from "../../components/Overall";
+import BondDetail from "../../components/BondDetail";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
@@ -18,6 +19,15 @@ const overallList = [
   { description: "1 เดือน", value: 4.0 },
   { description: "3 เดือน", value: 8.0 },
 ];
+
+const detail = {
+  info1: "7 ปี 1 เดือน",
+  info2: "5 ปี 1 เดือน",
+  info3: "4",
+  info4: "24 ม.ค. 2566",
+  info5: "1,000 บาท",
+  // info6: "ทุก 6 เดือน หรือ ปีละ 2 ครั้ง",
+};
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [defaultValue, setDefaultValue] = useState("oneMonth");
@@ -62,6 +72,7 @@ const Home = () => {
             />
           </div>
           <Overall values={overallList} />
+          <BondDetail detail={detail} />
         </ContainerBody>
       )}
     </>

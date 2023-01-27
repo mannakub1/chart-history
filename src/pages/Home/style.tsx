@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { WHITE_FFFFFF } from "../../constants/colors/colors";
+import { GRAY_F2F2F2, WHITE_FFFFFF } from "../../constants/colors/colors";
 
 export const ContainerHeader = styled.div`
   padding: 16px;
+  background-color: ${GRAY_F2F2F2};
 `;
 
 export const ContainerBody = styled.div`
@@ -11,5 +12,7 @@ export const ContainerBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height: 100vh;
+  margin-bottom: 24px;
+
+  margin-top: -15px;
 `;
