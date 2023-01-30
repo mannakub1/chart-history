@@ -9,12 +9,32 @@ import {
 } from "../../../constants/colors/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
 import { StyledTextDiv, StyledChartDiv } from "./style";
-import dajs from "dayjs";
 
 const createChartData = (data) => {
   const dataArray: DataArray = data.map((d) => d.value);
   const dateArray: DateArray = data.map((d) => d.date);
   return { dataArray, dateArray };
+};
+
+const createThaiDateFormat = (data) => {
+  const thaiMonth = [
+    "ม.ค.",
+    "ก.พ.",
+    "มี.ค.",
+    "เม.ย",
+    "พ.ค.",
+    "มิ.ย.",
+    "ก.ค.",
+    "ส.ค.",
+    "ก.ย.",
+    "ต.ค.",
+    "พ.ย.",
+    "ธ.ค.",
+  ];
+  return data?.map((data) => {
+    const [y, m, d] = data.split("-").map(Number);
+    return `${d} ${thaiMonth[m - 1]} ${(y + 542) % 100}`;
+  });
 };
 
 const calMaximumYaxis = (data) => {
@@ -23,12 +43,10 @@ const calMaximumYaxis = (data) => {
 
 const Chart = (props: ChartProps) => {
   const { data, title } = props;
-
   const chartData = useMemo(() => {
     const object = createChartData(data);
-
     return {
-      xAxis: object.dateArray,
+      xAxis: createThaiDateFormat(object.dateArray),
       yAxis: object.dataArray,
       maximumXaxisValue: calMaximumYaxis(object.dataArray),
     };
@@ -36,9 +54,10 @@ const Chart = (props: ChartProps) => {
 
   const option = {
     tooltip: {
-      trigger: "axis",
+      trigger: "item",
       backgroundColor: GRAY_E0E0E0,
       borderWidth: 0,
+      position: "top",
       axisPointer: {},
       textStyle: {
         fontFamily: "Kanit",
@@ -51,10 +70,6 @@ const Chart = (props: ChartProps) => {
       extraCssText: `
       text-align: center;
     `,
-      position: (point, params, dom, rect, size) => {
-        // fixed at top
-        return [point[0] - 30, "15%"];
-      },
       formatter: "{b}<br/>{c} %",
       shadowBlur: 0,
       shadowColor: "transparent",
@@ -62,8 +77,8 @@ const Chart = (props: ChartProps) => {
       valueFormatter: (value) => value.toFixed(2) + "%",
     },
     grid: {
-      left: "4%",
-      right: "2%",
+      left: "5%",
+      right: "3%",
       bottom: "3%",
       top: "3%",
       containLabel: true,
@@ -75,13 +90,13 @@ const Chart = (props: ChartProps) => {
       animation: false,
       data: chartData.xAxis,
       axisLabel: {
+        formatter: (value) => value.split(" ").slice(0, 2).join(" "),
         align: "center",
         textStyle: {
           fontSize: "12px",
           fontFamily: "Kanit",
           fontWeight: "400",
         },
-        formatter: (value) => dajs(value).format("MM/DD"),
       },
       axisLine: {
         show: false,

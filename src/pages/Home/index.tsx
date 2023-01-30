@@ -1,20 +1,13 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Search from "../../components/Search";
-import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
 import mockupData from "../../constants/chartMockupData/chartMockupData";
 
 import { ContainerHeader, ContainerBody } from "./style";
-import Chart from "../../components/common/Chart";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
-
-const buttonGroupValue = [
-  { label: "1 สัปดาห์", value: "oneWeek" },
-  { label: "1 เดือน", value: "oneMonth" },
-  { label: "3 เดือน", value: "threeMonth" },
-];
+import ChartHistory from "../../components/ChartHistory";
 
 const overallList = [
   { description: "1 สัปดาห์", value: -4.0 },
@@ -32,7 +25,11 @@ const detail = {
 };
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
-  const [defaultValue, setDefaultValue] = useState("oneMonth");
+  const [chartData, setChartData] = useState(mockupData);
+
+  useEffect(() => {
+    setChartData(chartData.slice(0, 29 + 1));
+  }, []);
 
   const onSearchChange = useCallback(
     (value: boolean) => {
@@ -40,13 +37,19 @@ const Home = () => {
     },
     [setShowComponents]
   );
-
-  const onClickButtonGroup = useCallback(
-    (selectedValue: string) => {
-      setDefaultValue(selectedValue);
+  const generateDataByTime = useCallback(
+    (time) => {
+      const amountMap = { oneWeek: 6, oneMonth: 29, threeMonth: 89 };
+      const amount = amountMap[time] || 0;
+      const arr = chartData.slice(0, amount + 1);
+      setChartData(arr);
     },
-    [setDefaultValue]
+    [chartData, setChartData]
   );
+  const onClickButtonGroup = useCallback((selectedValue) => {
+    generateDataByTime(selectedValue);
+    //Fetch data with selected value
+  }, []);
 
   return (
     <>
@@ -66,14 +69,7 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
-          <div>
-			<Chart data={mockupData} title="อัตราผลตอบแทน" />
-            <ButtonGroup
-              defaultValue={defaultValue}
-              onSelected={onClickButtonGroup}
-              values={buttonGroupValue}
-            />
-          </div>
+          <ChartHistory data={chartData} onSelected={onClickButtonGroup} />
           <Overall values={overallList} />
           <BondDetail detail={detail} />
         </ContainerBody>
