@@ -36,7 +36,7 @@ const Chart = (props: ChartProps) => {
 
   const option = {
     tooltip: {
-      trigger: "axis",
+      trigger: "item",
       backgroundColor: GRAY_E0E0E0,
       borderWidth: 0,
       axisPointer: {},
@@ -51,10 +51,7 @@ const Chart = (props: ChartProps) => {
       extraCssText: `
       text-align: center;
     `,
-      position: (point, params, dom, rect, size) => {
-        // fixed at top
-        return [point[0] - 30, "15%"];
-      },
+      position: "top",
       formatter: "{b}<br/>{c} %",
       shadowBlur: 0,
       shadowColor: "transparent",
