@@ -1,14 +1,18 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Search from "../../components/Search";
 import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
 import mockupData from "../../constants/chartMockupData/chartMockupData";
 
-import { ContainerHeader, ContainerBody } from "./style";
+import { ContainerHeader, ContainerBody, Container } from "./style";
 import Chart from "../../components/common/Chart";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
+import {
+  useSearchBond,
+  useSearchBondAction,
+} from "../../services/home/home-query";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
@@ -34,7 +38,15 @@ const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [defaultValue, setDefaultValue] = useState("oneMonth");
 
-  const onSearchChange = useCallback(
+  const { data: searchBond } = useSearchBond();
+  const { mutate: onSearch } = useSearchBondAction();
+  const [valueSearch, setValueSearch] = useState(searchBond);
+
+  useEffect(() => {
+    setValueSearch(searchBond);
+  }, [searchBond]);
+
+  const onChangeShowComopnent = useCallback(
     (value: boolean) => {
       setShowComponents(value);
     },
@@ -48,11 +60,28 @@ const Home = () => {
     [setDefaultValue]
   );
 
+  const onSearchChange = useCallback(
+    (value: string) => {
+      onSearch(value, {
+        onSuccess: (response) => {
+          setValueSearch(response);
+          console.log("get API Success", response);
+        },
+        onError: (response) => {
+          console.log("error ", response);
+        },
+      });
+    },
+    [onSearch]
+  );
+
   return (
-    <>
+    <Container>
       <ContainerHeader>
         <Search
-          setShowComponents={onSearchChange}
+          valueSearch={valueSearch || []}
+          onSearch={onSearchChange}
+          setShowComponents={onChangeShowComopnent}
           showComponents={showComponents}
         />
         {showComponents && (
@@ -78,7 +107,7 @@ const Home = () => {
           <BondDetail detail={detail} />
         </ContainerBody>
       )}
-    </>
+    </Container>
   );
 };
 

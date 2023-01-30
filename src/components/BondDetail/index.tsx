@@ -39,7 +39,7 @@ const BondDetail = (props: BondDetailType) => {
 
     return Object.entries(detail).map(([, value], index) => {
       return (
-        <FlexRow>
+        <FlexRow key={`${index}`}>
           <Text color={GRAY_565656}>{menu[index]}</Text>
           <div style={{ width: 130, textAlign: "end" }}>
             <Text>{value}</Text>

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { GRAY_F2F2F2, WHITE_FFFFFF } from "../../constants/colors/colors";
 
+export const Container = styled.div`
+  background-color: ${GRAY_F2F2F2};
+  height: 100vh;
+`;
+
 export const ContainerHeader = styled.div`
   padding: 16px;
   background-color: ${GRAY_F2F2F2};

@@ -12,21 +12,23 @@ const Overall = (props: OverallType) => {
   const { values } = props;
 
   const renderList = useMemo(() => {
-    return values.map(({ value, description }: OverallItmeType) => {
-      const color = value > 0 ? GREEN_70B412 : RED_DB0000;
-      const stringValue =
-        value > 0 ? `+${value.toFixed(2)}%` : `${value.toFixed(2)}%`;
-      return (
-        <FlexColumn>
-          <Text weight={600} color={color}>
-            {stringValue}
-          </Text>
-          <Text weight={400} color={GRAY_838383}>
-            {description}
-          </Text>
-        </FlexColumn>
-      );
-    });
+    return values.map(
+      ({ value, description }: OverallItmeType, index: number) => {
+        const color = value > 0 ? GREEN_70B412 : RED_DB0000;
+        const stringValue =
+          value > 0 ? `+${value.toFixed(2)}%` : `${value.toFixed(2)}%`;
+        return (
+          <FlexColumn key={`${index}`}>
+            <Text weight={600} color={color}>
+              {stringValue}
+            </Text>
+            <Text weight={400} color={GRAY_838383}>
+              {description}
+            </Text>
+          </FlexColumn>
+        );
+      }
+    );
   }, [values]);
 
   return (

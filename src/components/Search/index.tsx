@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import { InputAdornment, IconButton } from "@mui/material";
 
-import { mockSearch } from "../../constants/mockup/data";
 import searchIcon from "../../constants/icons/ic_search.svg";
 import clearIcon from "../../constants/icons/ic_close-circle.svg";
 import Text from "../common/Text";
@@ -11,7 +10,7 @@ import { StyleSearch, StyleSearchContainer, StyleLink, FlexRow } from "./style";
 import { SearchProps } from "./type";
 
 const Search = (props: SearchProps) => {
-  const { setShowComponents, onSearch } = props;
+  const { setShowComponents, onSearch, valueSearch } = props;
   const [isShowSearchList, setIsShowSearchList] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [warning, setWarning] = useState<string | undefined>(undefined);
@@ -128,7 +127,7 @@ const Search = (props: SearchProps) => {
         )}
       </StyleSearchContainer>
       {isShowSearchList && (
-        <ListSearch list={mockSearch} onClickItem={onClickListItem} />
+        <ListSearch list={valueSearch} onClickItem={onClickListItem} />
       )}
     </>
   );
