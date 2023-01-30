@@ -66,8 +66,8 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
-          <div>
-			<Chart data={mockupData} title="อัตราผลตอบแทน" />
+          <div style={{ padding: 16 }}>
+            <Chart data={mockupData} title="อัตราผลตอบแทน" />
             <ButtonGroup
               defaultValue={defaultValue}
               onSelected={onClickButtonGroup}
