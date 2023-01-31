@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
@@ -26,10 +26,6 @@ const detail = {
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [chartData, setChartData] = useState(mockupData);
-
-  useEffect(() => {
-    setChartData(chartData.slice(0, 29 + 1));
-  }, []);
 
   const onSearchChange = useCallback(
     (value: boolean) => {
