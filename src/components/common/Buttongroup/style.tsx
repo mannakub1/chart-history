@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { Tabs, Tab } from "@mui/material";
+
 import {
   BLUE_025BB7,
   GRAY_565656,
@@ -7,51 +8,45 @@ import {
   WHITE_FFFFFF,
 } from "../../../constants/colors/colors";
 
-export const StyledButtonGroup = styled(ToggleButtonGroup)`
-  background: ${GRAY_F2F2F2};
-  margin: auto;
-  &.MuiToggleButtonGroup-root {
+export const StyledTabs = styled(Tabs)`
+  &.MuiTabs-root {
+    border: none;
+    background: ${GRAY_F2F2F2};
     border-radius: 28px;
-    display: flex;
-    justify-content: center;
-    padding: 4px;
+    width: 100%;
+    min-height: unset;
+    height: 42px;
+  }
+  .MuiTabs-scroller {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+  .MuiTabs-flexContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .MuiTab-root {
+    max-width: unset;
+    width: 100%;
+    font-weight: 400;
+  }
+  .MuiTab-root.Mui-selected {
+    color: ${BLUE_025BB7};
+  }
+  .MuiTabs-indicator {
+    height: 80%;
+    bottom: 4px;
+    border-radius: 28px;
+    background-color: ${WHITE_FFFFFF};
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
   }
 `;
-
-export const StyledButton = styled(ToggleButton)`
-  &.MuiButtonBase-root {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-right: 1.823rem;
-    padding-left: 1.823rem;
-    border: none;
-    width: 100%;
-
-    &.MuiToggleButtonGroup-grouped {
-      border-radius: 1.625rem;
-      color: ${GRAY_565656};
-      font-weight: 400;
-      font-size: 14px;
-    }
-    &.MuiToggleButtonGroup-grouped:not(:first-of-type) {
-      border-radius: 1.625rem;
-      margin-left: 0.313rem;
-    }
-    &.MuiToggleButtonGroup-grouped:not(:last-of-type) {
-      border-radius: 1.625rem;
-      margin-right: 0.313;
-    }
-    &.Mui-selected {
-      background-color: white;
-      color: ${BLUE_025BB7};
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
-    }
-    &.Mui-selected:hover {
-      background-color: ${WHITE_FFFFFF};
-      border-radius: 26px;
-    }
-  }
-  &.MuiButtonBase-root:hover {
-    background-color: transparent;
+export const StyledTab = styled(Tab)`
+  z-index: 100;
+  position: relative;
+  bottom: 2px;
+  color: ${GRAY_565656};
+  .MuiButtonBase-root-MuiTab-root {
+    padding: 0;
   }
 `;

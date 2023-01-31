@@ -87,7 +87,7 @@ const Chart = (props: ChartProps) => {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      animation: false,
+      animation: true,
       data: chartData.xAxis,
       axisLabel: {
         formatter: (value) => value.split(" ").slice(0, 2).join(" "),
@@ -108,7 +108,7 @@ const Chart = (props: ChartProps) => {
     yAxis: {
       type: "value",
       position: "right",
-      animation: false,
+      animation: true,
       minInterval: 0.5,
       className: "y-axis-label",
       axisLabel: {
@@ -159,7 +159,7 @@ const Chart = (props: ChartProps) => {
         nullPointMode: "break",
         data: chartData.yAxis,
         smooth: true,
-        animation: false,
+        animation: true,
         symbolSize: 7,
         showSymbol: true,
         itemStyle: {
