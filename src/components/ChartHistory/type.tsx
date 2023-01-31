@@ -5,5 +5,5 @@ export type ChartHistoryProps = {
 
 export type DataType = {
   date: string;
-  value: number;
+  value: number | null;
 };

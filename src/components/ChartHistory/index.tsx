@@ -4,7 +4,7 @@ import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
 import { useState, useCallback, useEffect } from "react";
 
-const selectedOption = [
+const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
   { label: "1 เดือน", value: "oneMonth" },
   { label: "3 เดือน", value: "threeMonth" },
@@ -12,27 +12,26 @@ const selectedOption = [
 
 const ChartHistory = (props: ChartHistoryProps) => {
   const { data, onSelected } = props;
-  const [defaultValue, setDefaultValue] = useState("oneMonth");
+  const [selectedOption, setSelectedOption] = useState("oneMonth");
 
   useEffect(() => {
-    onSelected?.(defaultValue);
-  }, [onSelected]);
+    onSelected?.(selectedOption);
+  }, [onSelected, selectedOption]);
 
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
-      setDefaultValue(selectedValue);
-      onSelected?.(selectedValue);
+      setSelectedOption(selectedValue);
     },
-    [setDefaultValue, onSelected]
+    [setSelectedOption]
   );
 
   return (
     <StyledDiv>
       <Chart title="อัตราผลตอบแทน" data={data} />
       <ButtonGroup
-        defaultValue={defaultValue}
+        defaultValue={selectedOption}
         onSelected={onClickButtonGroup}
-        values={selectedOption}
+        values={buttonGroupValue}
       />
     </StyledDiv>
   );

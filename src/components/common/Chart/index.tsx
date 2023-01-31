@@ -9,6 +9,7 @@ import {
 } from "../../../constants/colors/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
 import { StyledTextDiv, StyledChartDiv } from "./style";
+import dayjs from "dayjs";
 
 const createChartData = (data) => {
   const dataArray: DataArray = data.map((d) => d.value);
@@ -32,8 +33,13 @@ const createThaiDateFormat = (data) => {
     "ธ.ค.",
   ];
   return data?.map((data) => {
-    const [y, m, d] = data.split("-").map(Number);
-    return `${d} ${thaiMonth[m - 1]} ${(y + 542) % 100}`;
+    const date = dayjs(data);
+    const isValid = date.isValid();
+    return isValid
+      ? `${date.format("DD")} ${thaiMonth[date.month()]} ${
+          (date.year() + 543) % 100
+        }`
+      : null;
   });
 };
 
@@ -128,7 +134,6 @@ const Chart = (props: ChartProps) => {
         },
       },
       min: 0,
-      max: chartData.maximumXaxisValue,
     },
 
     dataZoom: [

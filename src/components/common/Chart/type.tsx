@@ -5,7 +5,7 @@ export type ChartProps = {
 
 export type DataType = {
   date: string;
-  value: number;
+  value: number | null;
 };
 
 export type DataArray = [number?];
