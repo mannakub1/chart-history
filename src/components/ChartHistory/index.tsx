@@ -1,10 +1,10 @@
 import { ChartHistoryProps } from "./type";
 import { StyledDiv } from "./style";
-import ButtonGroup from "../common/Buttongroup";
+import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
 import { useState, useCallback, useEffect } from "react";
 
-const buttonGroupValue = [
+const selectedOption = [
   { label: "1 สัปดาห์", value: "oneWeek" },
   { label: "1 เดือน", value: "oneMonth" },
   { label: "3 เดือน", value: "threeMonth" },
@@ -16,7 +16,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
 
   useEffect(() => {
     onSelected?.(defaultValue);
-  }, []);
+  }, [onSelected]);
 
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
@@ -32,7 +32,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
       <ButtonGroup
         defaultValue={defaultValue}
         onSelected={onClickButtonGroup}
-        values={buttonGroupValue}
+        values={selectedOption}
       />
     </StyledDiv>
   );
