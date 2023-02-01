@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
-import mockupData from "../../constants/chartMockupData/chartMockupData";
+import { chartDataMockup } from "../../constants/mockup/data";
 
 import { ContainerHeader, ContainerBody } from "./style";
 import Overall from "../../components/Overall";
@@ -25,7 +25,7 @@ const detail = {
 };
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
-  const [chartData, setChartData] = useState(mockupData);
+  const [chartData] = useState(chartDataMockup);
 
   const onSearchChange = useCallback(
     (value: boolean) => {
@@ -33,17 +33,8 @@ const Home = () => {
     },
     [setShowComponents]
   );
-  const generateDataByTime = useCallback(
-    (time) => {
-      const amountMap = { oneWeek: 6, oneMonth: 29, threeMonth: 89 };
-      const amount = amountMap[time] || 0;
-      const arr = chartData.slice(0, amount + 1);
-      setChartData(arr);
-    },
-    [chartData, setChartData]
-  );
+
   const onClickButtonGroup = useCallback((selectedValue) => {
-    generateDataByTime(selectedValue);
     //Fetch data with selected value
   }, []);
 

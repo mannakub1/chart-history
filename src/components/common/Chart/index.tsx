@@ -50,8 +50,8 @@ const createThaiDateFormat = (data) => {
   });
 };
 
-const calMaximumYaxis = (data) => {
-  return data.reduce((a, b) => a + b, 0) / data.length + 2;
+const calculateLimitedXaxisValue = (data) => {
+  return Math.max(...data) + 2;
 };
 
 const Chart = (props: ChartProps) => {
@@ -71,7 +71,7 @@ const Chart = (props: ChartProps) => {
     return {
       xAxis: createThaiDateFormat(object.dateArray),
       yAxis: object.dataArray,
-      maximumXaxisValue: calMaximumYaxis(object.dataArray),
+      limitedXaxisValue: calculateLimitedXaxisValue(object.dataArray),
     };
   }, [data]);
 
@@ -151,6 +151,7 @@ const Chart = (props: ChartProps) => {
         },
       },
       min: 0,
+      max: chartData.limitedXaxisValue,
     },
 
     dataZoom: [
@@ -258,7 +259,7 @@ const Chart = (props: ChartProps) => {
       <StyledChartDiv>
         {isDataNull ? (
           <StyledNoDataContainer>
-            <StyledNoDataImage src={image} />
+            <StyledNoDataImage width="220" height="132" src={image} />
             <StyledTypography>ไม่พบข้อมูลย้อนหลัง</StyledTypography>
           </StyledNoDataContainer>
         ) : (

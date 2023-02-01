@@ -12,6 +12,7 @@ export const StyledChartDiv = styled.div`
 export const StyledNoDataContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 3.125rem 0 3.125rem 0;
 `;
 export const StyledNoDataImage = styled.img`

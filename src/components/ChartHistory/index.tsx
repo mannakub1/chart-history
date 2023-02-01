@@ -2,7 +2,7 @@ import { ChartHistoryProps } from "./type";
 import { StyledDiv } from "./style";
 import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "oneWeek" },
@@ -18,6 +18,12 @@ const ChartHistory = (props: ChartHistoryProps) => {
     onSelected?.(selectedOption);
   }, [onSelected, selectedOption]);
 
+  const selectedChartData = useMemo(() => {
+    const amountMap = { oneWeek: 7, oneMonth: 30, threeMonth: 90 };
+    const amount = amountMap[selectedOption] || 0;
+    return data.slice(0, amount);
+  }, [data, selectedOption]);
+
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
       setSelectedOption(selectedValue);
@@ -27,7 +33,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
 
   return (
     <StyledDiv>
-      <Chart title="อัตราผลตอบแทน" data={data} />
+      <Chart title="อัตราผลตอบแทน" data={selectedChartData} />
       <ButtonGroup
         defaultValue={selectedOption}
         onSelected={onClickButtonGroup}
