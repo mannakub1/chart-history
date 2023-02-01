@@ -89,6 +89,7 @@ const Chart = (props: ChartProps) => {
       extraCssText: `
       text-align: center;
     `,
+      position: "top",
       formatter: "{b}<br/>{c} %",
       shadowBlur: 0,
       shadowColor: "transparent",
