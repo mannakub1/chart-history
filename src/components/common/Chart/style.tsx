@@ -1,10 +1,25 @@
+import { Typography } from "@mui/material";
 import styled from "styled-components";
+import { GRAY_565656 } from "../../../constants/colors/colors";
 
 export const StyledTextDiv = styled.div`
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem 0 1rem 0;
 `;
 
 export const StyledChartDiv = styled.div`
   padding-bottom: 1rem;
+`;
+export const StyledNoDataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 3.125rem 0 3.125rem 0;
+`;
+export const StyledNoDataImage = styled.img`
+  padding: 0 3.84375rem 0 3.84375rem;
+`;
+export const StyledTypography = styled(Typography)`
+  padding-top: 1rem;
+  text-align: center;
+  font-weight: 400;
+  color: ${GRAY_565656};
 `;

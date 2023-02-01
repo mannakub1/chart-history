@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import Text from "../Text/index";
 import {
@@ -8,7 +8,14 @@ import {
   GRAY_F2F4F7,
 } from "../../../constants/colors/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
-import { StyledTextDiv, StyledChartDiv } from "./style";
+import {
+  StyledTextDiv,
+  StyledChartDiv,
+  StyledNoDataImage,
+  StyledTypography,
+  StyledNoDataContainer,
+} from "./style";
+import image from "../../../constants/images/emptyState.svg";
 import dayjs from "dayjs";
 
 const createChartData = (data) => {
@@ -48,7 +55,13 @@ const calMaximumYaxis = (data) => {
 };
 
 const Chart = (props: ChartProps) => {
+  const [isDataNull, setIsDataNull] = useState(false);
   const { data, title } = props;
+
+  useEffect(() => {
+    data.length === 0 ? setIsDataNull(true) : setIsDataNull(false);
+  }, [data]);
+
   const chartData = useMemo(() => {
     const object = createChartData(data);
     return {
@@ -239,7 +252,14 @@ const Chart = (props: ChartProps) => {
         <Text weight={600}>{title}</Text>
       </StyledTextDiv>
       <StyledChartDiv>
-        <ReactEcharts option={option} />
+        {isDataNull ? (
+          <StyledNoDataContainer>
+            <StyledNoDataImage src={image} />
+            <StyledTypography>ไม่พบข้อมูลย้อนหลัง</StyledTypography>
+          </StyledNoDataContainer>
+        ) : (
+          <ReactEcharts option={option} />
+        )}
       </StyledChartDiv>
     </>
   );
