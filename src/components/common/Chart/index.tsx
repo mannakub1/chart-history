@@ -15,7 +15,7 @@ import {
   StyledTypography,
   StyledNoDataContainer,
 } from "./style";
-import image from "../../../constants/images/emptyState.svg";
+import image from "../../../constants/images/empty_state.svg";
 import dayjs from "dayjs";
 
 const createChartData = (data) => {
@@ -59,7 +59,11 @@ const Chart = (props: ChartProps) => {
   const { data, title } = props;
 
   useEffect(() => {
-    data.length === 0 ? setIsDataNull(true) : setIsDataNull(false);
+    if (data.length === 0) {
+      setIsDataNull(true);
+    } else {
+      setIsDataNull(false);
+    }
   }, [data]);
 
   const chartData = useMemo(() => {
