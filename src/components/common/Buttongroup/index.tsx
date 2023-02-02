@@ -1,12 +1,13 @@
-import { StyledButtonGroup, StyledButton } from "./style";
-import { ButtonGroupProps } from "./type";
+import { StyledTabs, StyledTab } from "./style";
+import { ButtonGroupProps, ButtonGroupValueType } from "./type";
 import { useCallback, useState } from "react";
 
 export const ButtonGroup = (props: ButtonGroupProps) => {
   const { defaultValue, values, onSelected: onSelectedProp } = props;
+
   const [selected, setSelected] = useState(defaultValue);
 
-  const handleSelected = useCallback(
+  const onSelected = useCallback(
     (_event, value) => {
       if (value != null) {
         setSelected(value);
@@ -17,22 +18,13 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   );
 
   return (
-    <StyledButtonGroup value={selected} onChange={handleSelected} exclusive>
-      {values.map((v) => {
-        const { value, label } = v;
+    <StyledTabs value={selected} onChange={onSelected}>
+      {values?.map(({ value, label }: ButtonGroupValueType, index) => {
         return (
-          <StyledButton
-            key={value}
-            disableFocusRipple={true}
-            disableRipple={true}
-            size="small"
-            value={value}
-          >
-            {label}
-          </StyledButton>
+          <StyledTab key={index} value={value} label={label} disableRipple />
         );
       })}
-    </StyledButtonGroup>
+    </StyledTabs>
   );
 };
 

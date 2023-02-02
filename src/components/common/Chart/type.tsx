@@ -1,11 +1,11 @@
 export type ChartProps = {
-  data: DataType[];
+  data: ChartDataType[];
   title: string;
 };
 
-export type DataType = {
+export type ChartDataType = {
   date: string;
-  value: number;
+  value: number | null;
 };
 
 export type DataArray = [number?];
