@@ -1,20 +1,13 @@
 import { useCallback, useState } from "react";
 
 import Search from "../../components/Search";
-import ButtonGroup from "../../components/common/ButtonGroup";
 import BondCard from "../../components/BondCard";
-import mockupData from "../../constants/chartMockupData/chartMockupData";
+import { chartDataMockup } from "../../constants/mockup/data";
 
 import { ContainerHeader, ContainerBody } from "./style";
-import Chart from "../../components/common/Chart";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
-
-const buttonGroupValue = [
-  { label: "1 สัปดาห์", value: "oneWeek" },
-  { label: "1 เดือน", value: "oneMonth" },
-  { label: "3 เดือน", value: "threeMonth" },
-];
+import ChartHistory from "../../components/ChartHistory";
 
 const overallList = [
   { description: "1 สัปดาห์", value: -4.0 },
@@ -32,7 +25,7 @@ const detail = {
 };
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
-  const [defaultValue, setDefaultValue] = useState("oneMonth");
+  const [chartData] = useState(chartDataMockup);
 
   const onSearchChange = useCallback(
     (value: boolean) => {
@@ -41,12 +34,9 @@ const Home = () => {
     [setShowComponents]
   );
 
-  const onClickButtonGroup = useCallback(
-    (selectedValue: string) => {
-      setDefaultValue(selectedValue);
-    },
-    [setDefaultValue]
-  );
+  const onClickButtonGroup = useCallback((selectedValue) => {
+    //Fetch data with selected value
+  }, []);
 
   return (
     <>
@@ -66,14 +56,7 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
-          <div style={{ padding: 16 }}>
-            <Chart data={mockupData} title="อัตราผลตอบแทน" />
-            <ButtonGroup
-              defaultValue={defaultValue}
-              onSelected={onClickButtonGroup}
-              values={buttonGroupValue}
-            />
-          </div>
+          <ChartHistory data={chartData} onSelected={onClickButtonGroup} />
           <Overall values={overallList} />
           <BondDetail detail={detail} />
         </ContainerBody>
