@@ -64,7 +64,7 @@ const Chart = (props: ChartProps) => {
     } else {
       setIsDataNull(false);
     }
-  }, [data]);
+  }, [data, setIsDataNull]);
 
   const chartData = useMemo(() => {
     const object = createChartData(data);
@@ -97,7 +97,7 @@ const Chart = (props: ChartProps) => {
       shadowBlur: 0,
       shadowColor: "transparent",
       fontSize: "10px",
-      valueFormatter: (value) => value.toFixed(2) + "%",
+      valueFormatter: (tooltipValue) => tooltipValue.toFixed(2) + "%", // formatting tooltips value to 2 decimal and put "%" in the end of value
     },
     grid: {
       left: "5%",
@@ -113,7 +113,8 @@ const Chart = (props: ChartProps) => {
       animation: true,
       data: chartData.xAxis,
       axisLabel: {
-        formatter: (value) => value.split(" ").slice(0, 2).join(" "),
+        formatter: (chartDataXaxis) =>
+          chartDataXaxis.split(" ").slice(0, 2).join(" "), // remove year on chartData.xAxis
         align: "center",
         textStyle: {
           fontSize: "12px",
@@ -135,7 +136,7 @@ const Chart = (props: ChartProps) => {
       minInterval: 0.5,
       className: "y-axis-label",
       axisLabel: {
-        formatter: (value) => `${value.toFixed(1)}%`,
+        formatter: (chartDataYaxis) => `${chartDataYaxis.toFixed(1)}%`, // fix chartDataYaxis to 1 decimal and add % string in the end of data
         padding: [0, 0, 0, 8],
         textStyle: {
           fontSize: "12px",

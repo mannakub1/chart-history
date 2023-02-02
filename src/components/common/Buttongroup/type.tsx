@@ -1,10 +1,10 @@
 export type ButtonGroupProps = {
-  values: ValueType[];
+  values: ButtonGroupValueType[];
   defaultValue: string;
   onSelected?: (value: string) => void;
 };
 
-export type ValueType = {
+export type ButtonGroupValueType = {
   label: string;
   value: string;
 };

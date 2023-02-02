@@ -1,9 +1,6 @@
-export type ChartHistoryProps = {
-  data: DataType[];
-  onSelected: (selectedValue: string) => void;
-};
+import { ChartDataType } from "../common/Chart/type";
 
-export type DataType = {
-  date: string;
-  value: number | null;
+export type ChartHistoryProps = {
+  data: ChartDataType[];
+  onSelected: (selectedValue: string) => void;
 };
