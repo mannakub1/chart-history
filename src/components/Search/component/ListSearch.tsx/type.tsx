@@ -1,9 +1,15 @@
 export type ListSearchProp = {
-  list: ListType[];
+  list: ItemSearchListType[];
   onClickItem: (name: string) => void;
+  scrollProp?: {
+    isFetched?: boolean;
+    isLoading?: boolean;
+    hasNextPage?: boolean;
+    onScroll?: any;
+  };
 };
 
-export type ListType = {
+export type ItemSearchListType = {
   name: string;
   description: string;
 };

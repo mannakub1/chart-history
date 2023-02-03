@@ -10,7 +10,8 @@ import { StyleSearch, StyleSearchContainer, StyleLink, FlexRow } from "./style";
 import { SearchProps } from "./type";
 
 const Search = (props: SearchProps) => {
-  const { setShowComponents, onSearch, valueSearch } = props;
+  const { setShowComponents, onSearch, onSelected, valueSearch, scrollProp } =
+    props;
   const [isShowSearchList, setIsShowSearchList] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [warning, setWarning] = useState<string | undefined>(undefined);
@@ -38,20 +39,28 @@ const Search = (props: SearchProps) => {
     (e) => {
       e.stopPropagation();
       setSearchValue("");
+      onSearch?.("");
       setIsShowIconClear(false);
       setWarning(undefined);
     },
-    [setSearchValue, setIsShowIconClear, setWarning]
+    [setSearchValue, setIsShowIconClear, setWarning, onSearch]
   );
 
   const onClickListItem = useCallback(
     (name: string) => {
+      onSelected?.(name);
       setIsShowSearchList(false);
       setSearchValue(name);
       setShowComponents(true);
       setIsShowIconClear(false);
     },
-    [setSearchValue, setShowComponents, setIsShowSearchList, setIsShowIconClear]
+    [
+      onSelected,
+      setSearchValue,
+      setShowComponents,
+      setIsShowSearchList,
+      setIsShowIconClear,
+    ]
   );
 
   const onSearchChange = useCallback(
@@ -127,7 +136,11 @@ const Search = (props: SearchProps) => {
         )}
       </StyleSearchContainer>
       {isShowSearchList && (
-        <ListSearch list={valueSearch} onClickItem={onClickListItem} />
+        <ListSearch
+          list={valueSearch}
+          onClickItem={onClickListItem}
+          scrollProp={scrollProp}
+        />
       )}
     </>
   );

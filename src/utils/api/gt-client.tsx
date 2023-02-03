@@ -5,13 +5,14 @@ import { ContentType, deepLoop } from "./tools";
 import { v4 } from "uuid";
 import qs from "qs";
 
-const BASE_TODO_API_HOST = `${process.env.REACT_APP_API_HOST}`;
+const BASE_TODO_API_HOST = `${process.env.REACT_APP_GT_HOST}`;
 
 const createClient = () => {
   const ax = axios.create();
   ax.interceptors.request.use((request: AxiosRequestConfig) => {
     request.url = `${BASE_TODO_API_HOST}/${request.url}`;
 
+    console.log("request.url", request.url);
     const headers = request.headers || {};
 
     // const token = getToken();
@@ -66,7 +67,7 @@ const createClient = () => {
     },
     (error: any) => {
       const { response } = error;
-      const { code, message } = response["data"] || {};
+      const { message } = response["data"] || {};
       // if token expired error code = 900012
       //   if (code === 900012) {
       //     setToken("");

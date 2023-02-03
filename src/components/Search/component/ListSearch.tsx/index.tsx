@@ -5,9 +5,30 @@ import notFoundIcon from "../../../../constants/icons/ic_data_not_found.svg";
 import { ListSearchProp } from "./type";
 import { Container, ContainerNtoFound, StyleList } from "./style";
 import Text from "../../../common/Text";
+import { useCallback } from "react";
+import Loading from "../../../common/Loading";
 
 const ListSearch = (prop: ListSearchProp) => {
-  const { list, onClickItem } = prop;
+  const { list, onClickItem, scrollProp = {} } = prop;
+
+  const onScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      const {
+        isFetched,
+        isLoading,
+        hasNextPage,
+        onScroll: onScrollProp,
+      } = scrollProp;
+      const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+      const bottom = scrollHeight - scrollTop - (clientHeight - 50) <= 100;
+
+      if (bottom && isFetched && hasNextPage && !isLoading) {
+        onScrollProp?.();
+        console.log("fetch");
+      }
+    },
+    [scrollProp]
+  );
 
   return (
     <>
@@ -18,7 +39,7 @@ const ListSearch = (prop: ListSearchProp) => {
         </ContainerNtoFound>
       )}
       {list.length > 0 && (
-        <StyleList>
+        <StyleList onScroll={onScroll}>
           {list.map((data, index) => {
             const { name, description } = data;
             return (
@@ -30,12 +51,14 @@ const ListSearch = (prop: ListSearchProp) => {
                     onClick={onClickItem.bind(null, name)}
                   />
                 </ListItemButton>
+
                 {index === list.length - 1 ? null : (
                   <Divider variant="middle" />
                 )}
               </Container>
             );
           })}
+          <Loading loading={scrollProp?.isLoading || false} />
         </StyleList>
       )}
     </>

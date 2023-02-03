@@ -1,13 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
 import { chartDataMockup } from "../../constants/mockup/data";
 
-import { ContainerHeader, ContainerBody } from "./style";
+import { Container, ContainerHeader, ContainerBody } from "./style";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
+
+import { useSearchBond } from "../../services/home/home-query";
+import {
+  SearchBondPagingResponse,
+  SearchBondResponse,
+} from "../../services/home/home-types";
+import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
+import lodash from "lodash";
 
 const overallList = [
   { description: "1 สัปดาห์", value: -4.0 },
@@ -23,17 +31,47 @@ const detail = {
   info5: "1,000 บาท",
   // info6: "ทุก 6 เดือน หรือ ปีละ 2 ครั้ง",
 };
+
+const mapSearchDataApiToComponent = (
+  searchBond: SearchBondPagingResponse[]
+) => {
+  const result = searchBond?.map(
+    (responseWithpaging: SearchBondPagingResponse) => {
+      const { data } = responseWithpaging;
+      return data?.map((d: SearchBondResponse) => {
+        const { thaiSymbol, nameTh } = d;
+        return { name: thaiSymbol, description: nameTh };
+      });
+    }
+  );
+
+  return lodash.flatten(result);
+};
+
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [chartData] = useState(chartDataMockup);
+  const [q, setQ] = useState("");
 
-  const { data: searchBond } = useSearchBond();
-  const { mutate: onSearch } = useSearchBondAction();
-  const [valueSearch, setValueSearch] = useState(searchBond);
+  const { data, fetchNextPage, isFetched, isFetchingNextPage, hasNextPage } =
+    useSearchBond(q);
+  const [valueSearch, setValueSearch] = useState<
+    ItemSearchListType[] | undefined
+  >([]);
 
   useEffect(() => {
-    setValueSearch(searchBond);
-  }, [searchBond]);
+    const newData = mapSearchDataApiToComponent(data?.pages || []);
+    setValueSearch(newData);
+  }, [data]);
+
+  const scrollProp = useMemo(() => {
+    return {
+      hasNextPage,
+      isLoading: isFetchingNextPage,
+      isFetched,
+      onScroll: fetchNextPage,
+    };
+  }, [hasNextPage, isFetched, fetchNextPage, isFetchingNextPage]);
 
   const onChangeShowComopnent = useCallback(
     (value: boolean) => {
@@ -42,24 +80,15 @@ const Home = () => {
     [setShowComponents]
   );
 
-  const onClickButtonGroup = useCallback((selectedValue) => {
-    //Fetch data with selected value
+  const onClickButtonGroup = useCallback(() => {}, []);
+
+  const onValueChange = useCallback((selectedValue: string) => {
+    console.log("onClickItemSearch", selectedValue);
   }, []);
 
-  const onSearchChange = useCallback(
-    (value: string) => {
-      onSearch(value, {
-        onSuccess: (response) => {
-          setValueSearch(response);
-          console.log("get API Success", response);
-        },
-        onError: (response) => {
-          console.log("error ", response);
-        },
-      });
-    },
-    [onSearch]
-  );
+  const onSearchChange = useCallback((value: string) => {
+    setQ(value);
+  }, []);
 
   return (
     <Container>
@@ -67,6 +96,8 @@ const Home = () => {
         <Search
           valueSearch={valueSearch || []}
           onSearch={onSearchChange}
+          onSelected={onValueChange}
+          scrollProp={scrollProp}
           setShowComponents={onChangeShowComopnent}
           showComponents={showComponents}
         />

@@ -1,35 +1,35 @@
-import { useQuery, useMutation } from "react-query";
-import { mockSearch, mockSearch2 } from "../../constants/mockup/data";
+import { useInfiniteQuery } from "react-query";
 import { api } from "../../utils/api";
+import { SearchBondPagingResponse, SearchBondResponse } from "./home-types";
 
-export const SEARCH = "/search";
+export const SEARCH = "thaisymbols";
 
-export const useSearchBond = () => {
-  return useQuery([SEARCH], () => {
-    console.log("=== useSearchBond === ");
-    return mockSearch;
-  });
-};
+export const useSearchBond = (q?: string) => {
+  return useInfiniteQuery<SearchBondPagingResponse>(
+    [SEARCH, q],
+    async ({ pageParam = 0 }) => {
+      const { data } = await api.gt.post<SearchBondResponse[]>(SEARCH, {
+        mmCode: process.env.REACT_APP_GT_MM_CODE,
+        q: q || "",
+        offset: pageParam,
+        limit: 10,
+      });
 
-export const useSearchBondAction = () => {
-  return useMutation(async (q: string) => {
-    console.log("=== useSearchBonAction === ");
-    return mockSearch2;
-  });
-};
-
-export const useSearchBondAPI = () => {
-  return useQuery([SEARCH], async () => {
-    const { data } = await api.gt.post<any>(`${SEARCH}`);
-
-    return data.data;
-  });
-};
-
-export const useSearchBondActionAPI = () => {
-  return useMutation(async () => {
-    const { data } = await api.gt.post<any>(`${SEARCH}`);
-
-    return data.data;
-  });
+      const responseWithPaging: SearchBondPagingResponse = {
+        data: data.data,
+        paging: {
+          page: pageParam,
+          nextPage: pageParam + 1,
+        },
+      };
+      return responseWithPaging;
+    },
+    {
+      getNextPageParam: (response: SearchBondPagingResponse) => {
+        const { data, paging } = response;
+        if (!data) return null;
+        return paging.nextPage;
+      },
+    }
+  );
 };

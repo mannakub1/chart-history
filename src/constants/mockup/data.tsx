@@ -1,6 +1,6 @@
-import { ListType } from "../../components/Search/component/ListSearch.tsx/type";
+import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
 
-export const mockSearch: ListType[] = [
+export const mockSearch: ItemSearchListType[] = [
   {
     name: "PTTC237A",
     description:
@@ -70,7 +70,7 @@ export const mockSearch: ListType[] = [
 
 export const chartDataMockup = [
   {
-    date: "20230101",
+    date: "20221231",
     value: 3.25,
   },
   {
