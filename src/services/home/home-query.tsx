@@ -1,8 +1,14 @@
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useMutation } from "react-query";
 import { api } from "../../utils/api";
-import { SearchBondPagingResponse, SearchBondResponse } from "./home-types";
+import {
+  GetBondRequest,
+  GetBondResponse,
+  SearchBondPagingResponse,
+  SearchBondResponse,
+} from "./home-types";
 
 export const SEARCH = "thaisymbols";
+export const GET_BOND = "inventory_prices";
 
 export const useSearchBond = (q?: string) => {
   return useInfiniteQuery<SearchBondPagingResponse>(
@@ -32,4 +38,18 @@ export const useSearchBond = (q?: string) => {
       },
     }
   );
+};
+
+export const useGetBond = () => {
+  return useMutation(async (params: GetBondRequest) => {
+    const paramsRequest = {
+      ...params,
+      mmCode: process.env.REACT_APP_GT_MM_CODE,
+    };
+    const { data } = await api.gt.post<GetBondResponse>(
+      GET_BOND,
+      paramsRequest
+    );
+    return data.data;
+  });
 };

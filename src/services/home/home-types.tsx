@@ -18,3 +18,41 @@ type ResponseWithPaging<T> = {
 export type OffsetType = {
   offset: number;
 };
+
+export type GetBondRequest = {
+  period: string;
+  thaiSymbol: string;
+};
+
+export type ChartResponse = {
+  avgYield: string;
+  settlementDate: string;
+};
+
+export type OverallResponse = {
+  value: string;
+  label: string;
+};
+
+export type GetBondResponse = {
+  mmCode: string;
+  thaiSymbol: string;
+  nameEn: string;
+  nameTh: string;
+  issueDate: string;
+  maturityDate: string;
+  bondType: string;
+  bondRiskLevel: string;
+  issuerImageUrl: string;
+  originalParValue: string;
+  parValue: string;
+  minimumUnit: string;
+  incrementUnit: string;
+  couponPayment: string;
+  couponFrequency: string;
+  bondAge: string;
+  coupons: string;
+  couponRate: string;
+  yieldPrices: ChartResponse[];
+  overallAvg: OverallResponse[];
+};

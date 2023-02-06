@@ -9,8 +9,9 @@ import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
 
-import { useSearchBond } from "../../services/home/home-query";
+import { useGetBond, useSearchBond } from "../../services/home/home-query";
 import {
+  GetBondResponse,
   SearchBondPagingResponse,
   SearchBondResponse,
 } from "../../services/home/home-types";
@@ -52,17 +53,45 @@ const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [chartData] = useState(chartDataMockup);
   const [q, setQ] = useState("");
+  const [thaiSymbol, setThaiSymbol] = useState("BATCHPAY0003");
+  const [period, setPeriod] = useState("past_1_month");
+  const [data, setData] = useState<GetBondResponse>();
 
-  const { data, fetchNextPage, isFetched, isFetchingNextPage, hasNextPage } =
-    useSearchBond(q);
+  const {
+    data: searchBond,
+    fetchNextPage,
+    isFetched,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useSearchBond(q);
+
+  const { mutate: getBond } = useGetBond();
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
 
   useEffect(() => {
-    const newData = mapSearchDataApiToComponent(data?.pages || []);
+    const newData = mapSearchDataApiToComponent(searchBond?.pages || []);
     setValueSearch(newData);
-  }, [data]);
+  }, [searchBond]);
+
+  useEffect(() => {
+    getBond(
+      {
+        period,
+        thaiSymbol,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("response", data);
+          setData(data);
+        },
+        onError: (response) => {
+          console.log("response error", response);
+        },
+      }
+    );
+  }, [getBond, period, thaiSymbol]);
 
   const scrollProp = useMemo(() => {
     return {
@@ -82,9 +111,13 @@ const Home = () => {
 
   const onClickButtonGroup = useCallback(() => {}, []);
 
-  const onValueChange = useCallback((selectedValue: string) => {
-    console.log("onClickItemSearch", selectedValue);
-  }, []);
+  const onValueChange = useCallback(
+    (selectedValue: string) => {
+      console.log("onClickItemSearch", selectedValue);
+      setThaiSymbol(selectedValue);
+    },
+    [setThaiSymbol]
+  );
 
   const onSearchChange = useCallback((value: string) => {
     setQ(value);
@@ -103,10 +136,10 @@ const Home = () => {
         />
         {showComponents && (
           <BondCard
-            title="PTTC237A"
-            description="หุ้นกู้เพื่ออนุรักษ์สิ่งแวดล้อมของบริษัท ปตท. จำกัด (มหาชน) ครั้งที่ 1/2563 ครบกำหนดไถ่ถอนปี พ.ศ. 2566 หุ้นกู้เพื่ออนุรักษ์สิ่งแวดล้อมของบริษัท ปตท. จำกัด (มหาชน) ครั้งที่ 1/2563 ครบกำหนดไถ่ถอนปี พ.ศ. 2566"
-            interestRate="3.11%"
-            rateType={"03"}
+            title={data?.thaiSymbol || ""}
+            description={data?.nameTh || ""}
+            interestRate={data?.couponRate || ""}
+            rateType={data?.couponPayment || ""}
           />
         )}
       </ContainerHeader>
