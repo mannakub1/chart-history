@@ -2,40 +2,34 @@ import { ChartHistoryProps } from "./type";
 import { StyledDiv } from "./style";
 import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 const buttonGroupValue = [
-  { label: "1 สัปดาห์", value: "oneWeek" },
-  { label: "1 เดือน", value: "oneMonth" },
-  { label: "3 เดือน", value: "threeMonth" },
+  { label: "1 สัปดาห์", value: "past_1_week" },
+  { label: "1 เดือน", value: "past_1_month" },
+  { label: "3 เดือน", value: "past_3_months" },
 ];
 
 const ChartHistory = (props: ChartHistoryProps) => {
   const { data, onSelected } = props;
-  const [selectedOption, setSelectedOption] = useState("oneMonth");
+  const [period, setPeriod] = useState("past_1_month");
 
   useEffect(() => {
-    onSelected?.(selectedOption);
-  }, [onSelected, selectedOption]);
-
-  const selectedChartData = useMemo(() => {
-    const amountMap = { oneWeek: 7, oneMonth: 30, threeMonth: 90 };
-    const amount = amountMap[selectedOption] || 0;
-    return data.slice(0, amount);
-  }, [data, selectedOption]);
+    onSelected?.(period);
+  }, [onSelected, period]);
 
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
-      setSelectedOption(selectedValue);
+      setPeriod(selectedValue);
     },
-    [setSelectedOption]
+    [setPeriod]
   );
 
   return (
     <StyledDiv>
-      <Chart title="อัตราผลตอบแทน" data={selectedChartData} />
+      <Chart title="อัตราผลตอบแทน" data={data || []} />
       <ButtonGroup
-        defaultValue={selectedOption}
+        defaultValue={period}
         onSelected={onClickButtonGroup}
         values={buttonGroupValue}
       />

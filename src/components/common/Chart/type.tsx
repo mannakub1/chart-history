@@ -4,8 +4,8 @@ export type ChartProps = {
 };
 
 export type ChartDataType = {
-  date: string;
-  value: number | null;
+  avgYield: string;
+  settlementDate: string;
 };
 
 export type DataArray = [number?];

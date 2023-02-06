@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
-import { chartDataMockup } from "../../constants/mockup/data";
 
 import { Container, ContainerHeader, ContainerBody } from "./style";
 import Overall from "../../components/Overall";
@@ -51,10 +50,8 @@ const mapSearchDataApiToComponent = (
 
 const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
-  const [chartData] = useState(chartDataMockup);
   const [q, setQ] = useState("");
   const [thaiSymbol, setThaiSymbol] = useState("BATCHPAY0003");
-  const [period, setPeriod] = useState("past_1_month");
   const [data, setData] = useState<GetBondResponse>();
 
   const {
@@ -75,24 +72,6 @@ const Home = () => {
     setValueSearch(newData);
   }, [searchBond]);
 
-  useEffect(() => {
-    getBond(
-      {
-        period,
-        thaiSymbol,
-      },
-      {
-        onSuccess: (data) => {
-          console.log("response", data);
-          setData(data);
-        },
-        onError: (response) => {
-          console.log("response error", response);
-        },
-      }
-    );
-  }, [getBond, period, thaiSymbol]);
-
   const scrollProp = useMemo(() => {
     return {
       hasNextPage,
@@ -109,7 +88,26 @@ const Home = () => {
     [setShowComponents]
   );
 
-  const onClickButtonGroup = useCallback(() => {}, []);
+  const onSelectedChartHistory = useCallback(
+    (period: string) => {
+      getBond(
+        {
+          period,
+          thaiSymbol,
+        },
+        {
+          onSuccess: (data) => {
+            console.log("response", data);
+            setData(data);
+          },
+          onError: (response) => {
+            console.log("response error", response);
+          },
+        }
+      );
+    },
+    [getBond, thaiSymbol]
+  );
 
   const onValueChange = useCallback(
     (selectedValue: string) => {
@@ -145,7 +143,10 @@ const Home = () => {
       </ContainerHeader>
       {showComponents && (
         <ContainerBody>
-          <ChartHistory data={chartData} onSelected={onClickButtonGroup} />
+          <ChartHistory
+            data={data?.yieldPrices}
+            onSelected={onSelectedChartHistory}
+          />
           <Overall values={overallList} />
           <BondDetail detail={detail} />
         </ContainerBody>
