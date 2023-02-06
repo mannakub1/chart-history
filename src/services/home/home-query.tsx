@@ -14,11 +14,12 @@ export const useSearchBond = (q?: string) => {
   return useInfiniteQuery<SearchBondPagingResponse>(
     [SEARCH, q],
     async ({ pageParam = 0 }) => {
+      const limit = 10;
       const { data } = await api.gt.post<SearchBondResponse[]>(SEARCH, {
         mmCode: process.env.REACT_APP_GT_MM_CODE,
         q: q || "",
-        offset: pageParam,
-        limit: 10,
+        offset: pageParam * limit,
+        limit,
       });
 
       const responseWithPaging: SearchBondPagingResponse = {
