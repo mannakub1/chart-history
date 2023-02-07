@@ -19,12 +19,12 @@ import image from "../../../constants/images/empty_state.svg";
 import dayjs from "dayjs";
 
 const createChartData = (data) => {
-  const dataArray: DataArray = data.map((d) => d.value);
-  const dateArray: DateArray = data.map((d) => d.date);
+  const dataArray: DataArray = data?.map((d) => d.avgYield);
+  const dateArray: DateArray = data?.map((d) => d.settlementDate);
   return { dataArray, dateArray };
 };
 
-const createThaiDateFormat = (data) => {
+const createThaiDateFormat = (data: DateArray) => {
   const thaiMonth = [
     "ม.ค.",
     "ก.พ.",
