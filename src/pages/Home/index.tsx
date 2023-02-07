@@ -23,15 +23,6 @@ const overallList = [
   { description: "3 เดือน", value: 8.0 },
 ];
 
-const detail = {
-  info1: "7 ปี 1 เดือน",
-  info2: "5 ปี 1 เดือน",
-  info3: "4",
-  info4: "24 ม.ค. 2566",
-  info5: "1,000 บาท",
-  // info6: "ทุก 6 เดือน หรือ ปีละ 2 ครั้ง",
-};
-
 const mapSearchDataApiToComponent = (
   searchBond: SearchBondPagingResponse[]
 ) => {
@@ -148,7 +139,7 @@ const Home = () => {
             onSelected={onSelectedChartHistory}
           />
           <Overall values={overallList} />
-          <BondDetail detail={detail} />
+          <BondDetail detail={data} />
         </ContainerBody>
       )}
     </Container>
