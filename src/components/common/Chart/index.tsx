@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import ReactEcharts from "echarts-for-react";
+
 import Text from "../Text/index";
 import {
   BLACK_212121,
@@ -11,6 +11,7 @@ import { ChartProps, DataArray, DateArray } from "./type";
 import {
   StyledTextDiv,
   StyledChartDiv,
+  StyledEchart,
   StyledNoDataImage,
   StyledTypography,
   StyledNoDataContainer,
@@ -96,7 +97,7 @@ const Chart = (props: ChartProps) => {
       formatter: "{b}<br/>{c} %",
       shadowBlur: 0,
       shadowColor: "transparent",
-      fontSize: "10px",
+      fontSize: "0.625rem",
       valueFormatter: (tooltipValue) => tooltipValue.toFixed(2) + "%", // formatting tooltips value to 2 decimal and put "%" in the end of value
     },
     grid: {
@@ -117,7 +118,7 @@ const Chart = (props: ChartProps) => {
           chartDataXaxis.split(" ").slice(0, 2).join(" "), // remove year on chartData.xAxis
         align: "center",
         textStyle: {
-          fontSize: "12px",
+          fontSize: "0.75rem",
           fontFamily: "Kanit",
           fontWeight: "400",
         },
@@ -139,7 +140,7 @@ const Chart = (props: ChartProps) => {
         formatter: (chartDataYaxis) => `${chartDataYaxis.toFixed(1)}%`, // fix chartDataYaxis to 1 decimal and add % string in the end of data
         padding: [0, 0, 0, 8],
         textStyle: {
-          fontSize: "12px",
+          fontSize: "0.75rem",
           fontFamily: "Kanit",
           fontWeight: "400",
         },
@@ -264,7 +265,7 @@ const Chart = (props: ChartProps) => {
             <StyledTypography>ไม่พบข้อมูลย้อนหลัง</StyledTypography>
           </StyledNoDataContainer>
         ) : (
-          <ReactEcharts option={option} />
+          <StyledEchart style={{}} option={option} />
         )}
       </StyledChartDiv>
     </>

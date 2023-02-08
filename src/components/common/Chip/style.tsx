@@ -9,9 +9,9 @@ export const StyledChip = styled(Chip)`
 
   & .MuiChip-label {
     color: white;
-    font-size: 18px;
-    line-height: 27px;
-    padding-left: 16px;
-    padding-right: 16px;
+    font-size: 1.125rem;
+    line-height: 1.688rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 `;
