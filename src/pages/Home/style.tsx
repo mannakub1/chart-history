@@ -21,3 +21,13 @@ export const ContainerBody = styled.div`
 
   margin-top: -15px;
 `;
+
+export const ContainerHr = styled.div`
+  padding-left: 16px;
+  padding-right: 16px;
+  color: ${GRAY_F2F2F2};
+`;
+
+export const Hr = styled.hr`
+  border: 1px solid ${GRAY_F2F2F2};
+`;

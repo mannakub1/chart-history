@@ -3,6 +3,6 @@ export type OverallType = {
 };
 
 export type OverallItmeType = {
-  value: number;
-  description: string;
+  value: string;
+  label: string;
 };

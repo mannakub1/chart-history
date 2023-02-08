@@ -3,7 +3,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
 
-import { Container, ContainerHeader, ContainerBody } from "./style";
+import {
+  Container,
+  ContainerHeader,
+  ContainerBody,
+  ContainerHr,
+  Hr,
+} from "./style";
 import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
@@ -16,12 +22,6 @@ import {
 } from "../../services/home/home-types";
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
 import lodash from "lodash";
-
-const overallList = [
-  { description: "1 สัปดาห์", value: -4.0 },
-  { description: "1 เดือน", value: 4.0 },
-  { description: "3 เดือน", value: 8.0 },
-];
 
 const detail = {
   info1: "7 ปี 1 เดือน",
@@ -49,10 +49,13 @@ const mapSearchDataApiToComponent = (
 };
 
 const Home = () => {
-  const [showComponents, setShowComponents] = useState(true);
+  const [data, setData] = useState<GetBondResponse>();
   const [q, setQ] = useState("");
   const [thaiSymbol, setThaiSymbol] = useState("BATCHPAY0003");
-  const [data, setData] = useState<GetBondResponse>();
+  const [showComponents, setShowComponents] = useState(true);
+  const [valueSearch, setValueSearch] = useState<
+    ItemSearchListType[] | undefined
+  >([]);
 
   const {
     data: searchBond,
@@ -61,11 +64,7 @@ const Home = () => {
     isFetchingNextPage,
     hasNextPage,
   } = useSearchBond(q);
-
   const { mutate: getBond } = useGetBond();
-  const [valueSearch, setValueSearch] = useState<
-    ItemSearchListType[] | undefined
-  >([]);
 
   useEffect(() => {
     const newData = mapSearchDataApiToComponent(searchBond?.pages || []);
@@ -97,7 +96,6 @@ const Home = () => {
         },
         {
           onSuccess: (data) => {
-            console.log("response", data);
             setData(data);
           },
           onError: (response) => {
@@ -111,15 +109,17 @@ const Home = () => {
 
   const onValueChange = useCallback(
     (selectedValue: string) => {
-      console.log("onClickItemSearch", selectedValue);
       setThaiSymbol(selectedValue);
     },
     [setThaiSymbol]
   );
 
-  const onSearchChange = useCallback((value: string) => {
-    setQ(value);
-  }, []);
+  const onSearchChange = useCallback(
+    (value: string) => {
+      setQ(value);
+    },
+    [setQ]
+  );
 
   return (
     <Container>
@@ -138,6 +138,7 @@ const Home = () => {
             description={data?.nameTh || ""}
             interestRate={data?.couponRate || ""}
             rateType={data?.couponPayment || ""}
+            imageUrl={data?.issuerImageUrl}
           />
         )}
       </ContainerHeader>
@@ -147,7 +148,10 @@ const Home = () => {
             data={data?.yieldPrices}
             onSelected={onSelectedChartHistory}
           />
-          <Overall values={overallList} />
+          <ContainerHr>
+            <Hr />
+          </ContainerHr>
+          <Overall values={data?.overallAvg || []} />
           <BondDetail detail={detail} />
         </ContainerBody>
       )}
