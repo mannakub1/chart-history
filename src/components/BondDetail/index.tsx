@@ -24,6 +24,39 @@ const menuSaving = [
 
 const BondDetail = (props: BondDetailType) => {
   const { detail } = props;
+
+  const data = useMemo(() => {
+    const couponFrequency = () => {
+      switch (detail?.couponFrequency) {
+        case "1":
+          return "ปีละ 1 ครั้ง หรือ ทุก 12 เดือน";
+        case "2":
+          return "ปีละ 2 ครั้ง หรือ ทุก 6 เดือน";
+        case "4":
+          return "ปีละ 4 ครั้ง หรือ ทุก 3 เดือน";
+        case "12":
+          return "ปีละ 12 ครั้ง หรือ ทุก 1 เดือน";
+      }
+    };
+    const isBondTypeSaving = getBondType() === "saving";
+    return {
+      info1: isBondTypeSaving ? `${detail?.issueDate}` : `${detail?.bondAge}`,
+      info2: isBondTypeSaving
+        ? `${detail?.maturityDate}`
+        : `${detail?.bondRemainingAge}`,
+      info3: isBondTypeSaving
+        ? `${detail?.parValue} `
+        : `${detail?.bondRiskLevel}`,
+      info4: isBondTypeSaving
+        ? `${detail?.minimumUnit} `
+        : `${detail?.maturityDate}`,
+      info5: isBondTypeSaving
+        ? `${detail?.incrementUnit} `
+        : `${detail?.originalParValue.toLocaleString()} บาท`,
+      info6: isBondTypeSaving ? null : couponFrequency(),
+    };
+  }, [detail]);
+
   const title = useMemo(() => {
     if (getBondType() === "saving") {
       return "ข้อมูลพันธบัตร";
@@ -36,8 +69,7 @@ const BondDetail = (props: BondDetailType) => {
     if (getBondType() === "saving") {
       menu = menuSaving;
     }
-
-    return Object.entries(detail).map(([, value], index) => {
+    return Object.entries(data).map(([, value], index) => {
       return (
         <FlexRow key={`${index}`}>
           <Text color={GRAY_565656}>{menu[index]}</Text>
@@ -47,7 +79,7 @@ const BondDetail = (props: BondDetailType) => {
         </FlexRow>
       );
     });
-  }, [detail]);
+  }, [data]);
 
   return (
     <Container>

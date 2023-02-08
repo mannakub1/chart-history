@@ -43,6 +43,7 @@ export type GetBondResponse = {
   maturityDate: string;
   bondType: string;
   bondRiskLevel: string;
+  bondRemainingAge: string;
   issuerImageUrl: string;
   originalParValue: string;
   parValue: string;
