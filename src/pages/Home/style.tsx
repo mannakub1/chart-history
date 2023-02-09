@@ -28,6 +28,14 @@ export const ContainerHr = styled.div`
   color: ${GRAY_F2F2F2};
 `;
 
+export const ContainerNotFound = styled.div`
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const Hr = styled.hr`
   border: 1px solid ${GRAY_F2F2F2};
 `;
