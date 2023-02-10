@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation } from "react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { api } from "../../utils/api";
 import {
   GetBondRequest,
@@ -42,7 +42,23 @@ export const useSearchBond = (q?: string) => {
 };
 
 export const useGetBond = () => {
+  const queryClient = useQueryClient();
   return useMutation(async (params: GetBondRequest) => {
+    const keyThaiSymbol = [GET_BOND, params.thaiSymbol];
+    const isClearCache =
+      queryClient.getQueryData<GetBondResponse>(keyThaiSymbol);
+
+    if (!isClearCache) {
+      queryClient.removeQueries([GET_BOND]);
+    }
+
+    const key = [GET_BOND, params.thaiSymbol, params.period];
+    const oldData = queryClient.getQueryData<GetBondResponse>(key);
+
+    if (oldData) {
+      return oldData;
+    }
+
     const paramsRequest = {
       ...params,
       mmCode: process.env.REACT_APP_GT_MM_CODE,
@@ -51,6 +67,8 @@ export const useGetBond = () => {
       GET_BOND,
       paramsRequest
     );
+    queryClient.setQueryData<string>(keyThaiSymbol, params.thaiSymbol);
+    queryClient.setQueryData<GetBondResponse>(key, data.data);
     return data.data;
   });
 };
