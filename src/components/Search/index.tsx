@@ -129,7 +129,7 @@ const Search = (props: SearchProps) => {
 
         {warning && (
           <FlexRow>
-            <Text color={"red"} size={"12px"}>
+            <Text color={"red"} size={"0.75rem"}>
               {warning}
             </Text>
           </FlexRow>

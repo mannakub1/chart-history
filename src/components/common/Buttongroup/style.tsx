@@ -12,14 +12,14 @@ export const StyledTabs = styled(Tabs)`
   &.MuiTabs-root {
     border: none;
     background: ${GRAY_F2F2F2};
-    border-radius: 28px;
+    border-radius: 1.75rem;
     width: 100%;
     min-height: unset;
-    height: 42px;
+    height: 2.625rem;
   }
   .MuiTabs-scroller {
-    padding-right: 6px;
-    padding-left: 6px;
+    padding-right: 0.375rem;
+    padding-left: 0.375rem;
   }
   .MuiTabs-flexContainer {
     display: grid;
@@ -35,16 +35,16 @@ export const StyledTabs = styled(Tabs)`
   }
   .MuiTabs-indicator {
     height: 80%;
-    bottom: 4px;
-    border-radius: 28px;
+    bottom: 0.25rem;
+    border-radius: 1.75rem;
     background-color: ${WHITE_FFFFFF};
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0rem 0.125rem 0.375rem rgba(0, 0, 0, 0.25);
   }
 `;
 export const StyledTab = styled(Tab)`
   z-index: 100;
   position: relative;
-  bottom: 2px;
+  bottom: 0.125rem;
   color: ${GRAY_565656};
   .MuiButtonBase-root-MuiTab-root {
     padding: 0;

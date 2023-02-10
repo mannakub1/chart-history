@@ -9,7 +9,7 @@ export const FlexRow = styled.div`
 `;
 
 export const StyleLink = styled(Link)`
-  padding-left: 8px;
+  padding-left: 0.5rem;
 
   & .MuiTypography-root {
     color: ${BLUE_025BB7};
@@ -18,10 +18,10 @@ export const StyleLink = styled(Link)`
 
 export const StyleSearch = styled(TextField)`
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 12px 24px -8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.1);
   & .MuiInputBase-root {
-    border-radius: 8px;
+    border-radius: 0.5rem;
   }
 
   & .MuiOutlinedInput-root {
@@ -36,5 +36,5 @@ export const StyleSearch = styled(TextField)`
 `;
 
 export const StyleSearchContainer = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `;

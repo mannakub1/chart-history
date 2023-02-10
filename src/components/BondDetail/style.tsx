@@ -5,7 +5,7 @@ import { GRAY_F8F8F8 } from "../../constants/colors/colors";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 `;
 
 export const Content = styled.div`
@@ -14,8 +14,8 @@ export const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  gap: 8px;
-  padding: 16px;
+  gap: 0.5rem;
+  padding: 1rem;
 `;
 
 export const FlexRow = styled.div`
@@ -30,5 +30,5 @@ export const FlexColumn = styled.div`
 `;
 
 export const TitleStyel = styled(Text)`
-  padding-left: 16px;
+  padding-left: 1rem;
 `;
