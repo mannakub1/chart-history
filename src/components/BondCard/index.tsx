@@ -34,8 +34,8 @@ const BondCard = (props: BondCardProps) => {
             {title}
           </Text>
           <StyledBondDescriptionText
-            lineHeight="21px"
-            size="14px"
+            lineHeight="1.311rem"
+            size="0.875rem"
             color={GRAY_838383}
           >
             {description}
@@ -50,7 +50,7 @@ const BondCard = (props: BondCardProps) => {
               : "อัตราดอกเบี้ยหน้าตั๋ว"}
           </Text>
           {rateType === "03" && (
-            <Text size={"14px"} color={GRAY_838383}>
+            <Text size={"0.875rem"} color={GRAY_838383}>
               ขั้นบันได
             </Text>
           )}

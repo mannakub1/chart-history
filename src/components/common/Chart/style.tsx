@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import styled from "styled-components";
+import ReactEcharts from "echarts-for-react";
 import { GRAY_565656 } from "../../../constants/colors/colors";
 
 export const StyledTextDiv = styled.div`
@@ -8,6 +9,9 @@ export const StyledTextDiv = styled.div`
 
 export const StyledChartDiv = styled.div`
   padding-bottom: 1rem;
+`;
+export const StyledEchart = styled(ReactEcharts)`
+  height: 17rem !important;
 `;
 export const StyledNoDataContainer = styled.div`
   display: flex;

@@ -7,7 +7,7 @@ export const LoadingLayout = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  height: 70px;
+  height: 4.375rem;
 `;
 
 export const LoadingIcon = styled(SyncIcon)<{ loading: string }>`
@@ -23,9 +23,9 @@ export const LoadingIcon = styled(SyncIcon)<{ loading: string }>`
   opacity: ${({ loading }) => (loading === "true" ? 1 : 0)};
   background-color: transparent;
   color: ${GRAY_838383};
-  font-size: 40px;
-  top: calc(50% - 20px);
-  left: calc(50% - 20px);
+  font-size: 2.5rem;
+  top: calc(50% - 1.25rem);
+  left: calc(50% - 1.25rem);
   -webkit-animation: cog 1s infinite;			
 	-moz-animation: cog 1s infinite;
 	-ms-animation: cog 1s infinite; 			

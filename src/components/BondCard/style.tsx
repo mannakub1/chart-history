@@ -8,18 +8,18 @@ import { GRAY_F8F8F8 } from "../../constants/colors/colors";
 export const StyledAvartarContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-right: 8px;
-  padding-left: 16px;
+  padding-right: 0.5rem;
+  padding-left: 1rem;
 `;
 
 export const StyledBondContentContainer = styled.div`
-  padding: 16px 16px 16px 0;
-  max-height: 73px;
+  padding: 1rem 1rem 1rem 0;
+  max-height: 4.563rem;
 `;
 
 export const StyledBondDescriptionText = styled(Text)`
   display: -webkit-box;
-  max-height: 73px;
+  max-height: 4.563rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
@@ -27,9 +27,9 @@ export const StyledBondDescriptionText = styled(Text)`
 `;
 
 export const StyledCard = styled(Card)`
-  margin-bottom: 16px;
-  margin-top: 16px;
-  max-height: 168px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  max-height: 10.5rem;
 `;
 
 export const StyledCardContentContainer = styled.div`
@@ -42,6 +42,6 @@ export const StyledCardFooter = styled(CardActions)`
     background-color: ${GRAY_F8F8F8};
     display: flex;
     justify-content: space-between;
-    padding: 8px 16px 8px 16px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
   }
 `;
