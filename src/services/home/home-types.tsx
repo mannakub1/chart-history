@@ -21,7 +21,7 @@ export type OffsetType = {
 
 export type GetBondRequest = {
   period: string;
-  thaiSymbol: string;
+  thaiSymbol: string | (string | null)[] | null | undefined;
 };
 
 export type ChartResponse = {

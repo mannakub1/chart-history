@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-
+import { useRouter } from "../../utils/helper";
 import Search from "../../components/Search";
 import BondCard from "../../components/BondCard";
-
+import notFoundIcon from "../../constants/icons/ic_data_not_found.svg";
 import {
   Container,
   ContainerHeader,
   ContainerBody,
   ContainerHr,
+  ContainerNotFound,
   Hr,
 } from "./style";
 import Overall from "../../components/Overall";
@@ -22,6 +23,8 @@ import {
 } from "../../services/home/home-types";
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
 import lodash from "lodash";
+import Text from "../../components/common/Text";
+import { useNavigate } from "react-router-dom";
 
 const mapSearchDataApiToComponent = (
   searchBond: SearchBondPagingResponse[]
@@ -40,9 +43,12 @@ const mapSearchDataApiToComponent = (
 };
 
 const Home = () => {
+  const router = useRouter();
+  const navigate = useNavigate();
   const [data, setData] = useState<GetBondResponse>();
   const [q, setQ] = useState("");
-  const [thaiSymbol, setThaiSymbol] = useState("BATCHPAY0003");
+  const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol);
+  const [isDataAvailable, setIsDataAvailable] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
@@ -56,7 +62,6 @@ const Home = () => {
     hasNextPage,
   } = useSearchBond(q);
   const { mutate: getBond } = useGetBond();
-
   useEffect(() => {
     const newData = mapSearchDataApiToComponent(searchBond?.pages || []);
     setValueSearch(newData);
@@ -70,6 +75,12 @@ const Home = () => {
       onScroll: fetchNextPage,
     };
   }, [hasNextPage, isFetched, fetchNextPage, isFetchingNextPage]);
+
+  const showComponentsWithData = useMemo(() => {
+    if (showComponents && isDataAvailable) {
+      return true;
+    }
+  }, [showComponents, isDataAvailable]);
 
   const onChangeShowComopnent = useCallback(
     (value: boolean) => {
@@ -90,6 +101,7 @@ const Home = () => {
             setData(data);
           },
           onError: (response) => {
+            setIsDataAvailable(false);
             console.log("response error", response);
           },
         }
@@ -101,8 +113,9 @@ const Home = () => {
   const onValueChange = useCallback(
     (selectedValue: string) => {
       setThaiSymbol(selectedValue);
+      navigate(`/?symbol=${selectedValue}`);
     },
-    [setThaiSymbol]
+    [setThaiSymbol, navigate]
   );
 
   const onSearchChange = useCallback(
@@ -123,7 +136,7 @@ const Home = () => {
           setShowComponents={onChangeShowComopnent}
           showComponents={showComponents}
         />
-        {showComponents && (
+        {showComponentsWithData && (
           <BondCard
             title={data?.thaiSymbol || ""}
             description={data?.nameTh || ""}
@@ -133,7 +146,7 @@ const Home = () => {
           />
         )}
       </ContainerHeader>
-      {showComponents && (
+      {showComponentsWithData && (
         <ContainerBody>
           <ChartHistory
             data={data?.yieldPrices}
@@ -146,6 +159,12 @@ const Home = () => {
           <BondDetail detail={data} />
         </ContainerBody>
       )}
+      {showComponents && !isDataAvailable ? (
+        <ContainerNotFound>
+          <img width="221" height="144" src={notFoundIcon} alt="not found" />
+          <Text>ไม่พบหุ้นกู้ที่คุณค้นหาในตลาดรอง</Text>
+        </ContainerNotFound>
+      ) : null}
     </Container>
   );
 };
