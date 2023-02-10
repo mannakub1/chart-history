@@ -3,7 +3,7 @@ import { CardActions } from "@mui/material";
 
 import Card from "../common/Card";
 import Text from "../common/Text";
-import { GRAY_F8F8F8 } from "../../constants/colors/colors";
+import { GRAY_F8F8F8 } from "../../constants/colors";
 
 export const StyledAvartarContainer = styled.div`
   display: flex;

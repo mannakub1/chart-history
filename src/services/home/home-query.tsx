@@ -67,7 +67,10 @@ export const useGetBond = () => {
       GET_BOND,
       paramsRequest
     );
-    queryClient.setQueryData<string>(keyThaiSymbol, params.thaiSymbol);
+
+    if (typeof params.thaiSymbol == "string") {
+      queryClient.setQueryData<string>(keyThaiSymbol, params.thaiSymbol);
+    }
     queryClient.setQueryData<GetBondResponse>(key, data.data);
     return data.data;
   });

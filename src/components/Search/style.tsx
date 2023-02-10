@@ -1,6 +1,6 @@
 import { TextField, Link } from "@mui/material";
 import styled from "styled-components";
-import { BLUE_025BB7, GRAY_E0E0E0 } from "../../constants/colors/colors";
+import { BLUE_025BB7, GRAY_E0E0E0 } from "../../constants/colors";
 
 export const FlexRow = styled.div`
   align-items: center;

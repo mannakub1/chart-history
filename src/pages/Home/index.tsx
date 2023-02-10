@@ -24,7 +24,6 @@ import {
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
 import lodash from "lodash";
 import Text from "../../components/common/Text";
-import { useNavigate } from "react-router-dom";
 
 const mapSearchDataApiToComponent = (
   searchBond: SearchBondPagingResponse[]
@@ -44,10 +43,9 @@ const mapSearchDataApiToComponent = (
 
 const Home = () => {
   const router = useRouter();
-  const navigate = useNavigate();
   const [data, setData] = useState<GetBondResponse>();
   const [q, setQ] = useState("");
-  const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol);
+  const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol || "");
   const [isDataAvailable, setIsDataAvailable] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
   const [valueSearch, setValueSearch] = useState<
@@ -113,9 +111,8 @@ const Home = () => {
   const onValueChange = useCallback(
     (selectedValue: string) => {
       setThaiSymbol(selectedValue);
-      navigate(`/?symbol=${selectedValue}`);
     },
-    [setThaiSymbol, navigate]
+    [setThaiSymbol]
   );
 
   const onSearchChange = useCallback(

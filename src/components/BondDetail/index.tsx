@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Container, Content, FlexRow, TitleStyel } from "./style";
 import { BondDetailType } from "./type";
 import Text from "../common/Text";
-import { GRAY_565656 } from "../../constants/colors/colors";
+import { GRAY_565656 } from "../../constants/colors";
 
 const getBondType = () => process.env.REACT_APP_TYPE;
 const menuCorp = [

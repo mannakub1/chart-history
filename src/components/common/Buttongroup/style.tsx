@@ -6,7 +6,7 @@ import {
   GRAY_565656,
   GRAY_F2F2F2,
   WHITE_FFFFFF,
-} from "../../../constants/colors/colors";
+} from "../../../constants/colors";
 
 export const StyledTabs = styled(Tabs)`
   &.MuiTabs-root {

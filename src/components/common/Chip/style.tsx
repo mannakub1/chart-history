@@ -1,4 +1,4 @@
-import { GRADIENT_PRIMARY } from "../../../constants/colors/colors";
+import { GRADIENT_PRIMARY } from "../../../constants/colors";
 import { Chip } from "@mui/material";
 import styled from "styled-components";
 

@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import styled from "styled-components";
 import ReactEcharts from "echarts-for-react";
-import { GRAY_565656 } from "../../../constants/colors/colors";
+import { GRAY_565656 } from "../../../constants/colors";
 
 export const StyledTextDiv = styled.div`
   padding: 1rem 0 1rem 0;

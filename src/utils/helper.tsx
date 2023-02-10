@@ -11,7 +11,7 @@ export const useRouter = () => {
       push: navigate,
       pathname: location.pathname,
       query: {
-        ...queryString.parse(location.search),
+        ...queryString.parse(location.search.slice(1)),
         ...params,
       },
       location,

@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { TextProps } from "./type";
-import { BLACK_212121 } from "../../../constants/colors/colors";
+import { BLACK_212121 } from "../../../constants/colors";
 const Text = (props: TextProps) => {
   const {
     children,

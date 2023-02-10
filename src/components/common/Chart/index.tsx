@@ -6,7 +6,7 @@ import {
   BLUE_025BB7,
   GRAY_E0E0E0,
   GRAY_F2F4F7,
-} from "../../../constants/colors/colors";
+} from "../../../constants/colors";
 import { ChartProps, DataArray, DateArray } from "./type";
 import {
   StyledTextDiv,

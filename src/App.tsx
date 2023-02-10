@@ -1,12 +1,18 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeProvider } from "@mui/material/styles";
-import Home from "./pages/Home/index";
-import Theme from "./constants/theme/theme";
+
+import { createTheme } from "@mui/material/styles";
 import { useCallback, useEffect, useRef } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Routes, Route, Navigate } from "react-router-dom";
+import Routes from "./routes";
 
 const queryClient = new QueryClient();
+
+const Theme = createTheme({
+  typography: {
+    fontFamily: "Kanit, Inter",
+  },
+});
 
 const App = () => {
   const isInitial = useRef(false);
@@ -37,10 +43,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={Theme}>
-        <Routes>
-          <Route path="/" element={<Home />} errorElement={<Home />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Routes />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </QueryClientProvider>

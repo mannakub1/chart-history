@@ -4,7 +4,7 @@ import DefaultImage from "@mui/icons-material/BrokenImage";
 import Chip from "../common/Chip";
 import Text from "../common/Text";
 
-import { BLACK_212121, GRAY_838383 } from "../../constants/colors/colors";
+import { BLACK_212121, GRAY_838383 } from "../../constants/colors";
 import {
   StyledAvartarContainer,
   StyledCard,

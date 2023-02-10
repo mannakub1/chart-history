@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Container, Content, FlexColumn, TitleStyel } from "./style";
 import { OverallItmeType, OverallType } from "./type";
-import { BLUE_025BB7, GRAY_838383 } from "../../constants/colors/colors";
+import { BLUE_025BB7, GRAY_838383 } from "../../constants/colors";
 import Text from "../common/Text";
 
 const Overall = (props: OverallType) => {

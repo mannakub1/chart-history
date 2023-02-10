@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK_212121, GRAY_838383 } from "../../../../constants/colors/colors";
+import { BLACK_212121, GRAY_838383 } from "../../../../constants/colors";
 
 export const Container = styled.div``;
 

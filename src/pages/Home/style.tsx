@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GRAY_F2F2F2, WHITE_FFFFFF } from "../../constants/colors/colors";
+import { GRAY_F2F2F2, WHITE_FFFFFF } from "../../constants/colors";
 
 export const Container = styled.div`
   background-color: ${GRAY_F2F2F2};

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import SyncIcon from "@mui/icons-material/Sync";
 import { css } from "@emotion/css";
-import { GRAY_838383 } from "../../../constants/colors/colors";
+import { GRAY_838383 } from "../../../constants/colors";
 
 export const LoadingLayout = styled.div`
   position: relative;

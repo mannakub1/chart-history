@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Text from "../common/Text";
-import { GRAY_F8F8F8 } from "../../constants/colors/colors";
+import { GRAY_F8F8F8 } from "../../constants/colors";
 
 export const Container = styled.div`
   display: flex;
