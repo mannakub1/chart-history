@@ -48,6 +48,7 @@ const Home = () => {
   const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol || "");
   const [isDataAvailable, setIsDataAvailable] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
+  const [period, setPeriod] = useState("past_1_month");
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
@@ -65,6 +66,38 @@ const Home = () => {
     setValueSearch(newData);
   }, [searchBond]);
 
+  useEffect(() => {
+    if (period && thaiSymbol) {
+      getBond(
+        {
+          period,
+          thaiSymbol,
+        },
+        {
+          onSuccess: (data) => {
+            setData(data);
+            setShowComponents(true);
+            setIsDataAvailable(true);
+          },
+          onError: (response) => {
+            setIsDataAvailable(false);
+            console.log("response error", response);
+          },
+        }
+      );
+    } else {
+      setShowComponents(true);
+      setIsDataAvailable(false);
+    }
+  }, [
+    getBond,
+    period,
+    thaiSymbol,
+    setShowComponents,
+    setIsDataAvailable,
+    setData,
+  ]);
+
   const scrollProp = useMemo(() => {
     return {
       hasNextPage,
@@ -75,9 +108,7 @@ const Home = () => {
   }, [hasNextPage, isFetched, fetchNextPage, isFetchingNextPage]);
 
   const showComponentsWithData = useMemo(() => {
-    if (showComponents && isDataAvailable) {
-      return true;
-    }
+    return showComponents && isDataAvailable;
   }, [showComponents, isDataAvailable]);
 
   const onChangeShowComopnent = useCallback(
@@ -89,23 +120,9 @@ const Home = () => {
 
   const onSelectedChartHistory = useCallback(
     (period: string) => {
-      getBond(
-        {
-          period,
-          thaiSymbol,
-        },
-        {
-          onSuccess: (data) => {
-            setData(data);
-          },
-          onError: (response) => {
-            setIsDataAvailable(false);
-            console.log("response error", response);
-          },
-        }
-      );
+      setPeriod(period);
     },
-    [getBond, thaiSymbol]
+    [setPeriod]
   );
 
   const onValueChange = useCallback(
@@ -146,6 +163,7 @@ const Home = () => {
       {showComponentsWithData && (
         <ContainerBody>
           <ChartHistory
+            period={period}
             data={data?.yieldPrices}
             onSelected={onSelectedChartHistory}
           />

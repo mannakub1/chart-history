@@ -2,7 +2,7 @@ import { ChartHistoryProps } from "./type";
 import { StyledDiv } from "./style";
 import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
-import { useState, useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 const buttonGroupValue = [
   { label: "1 สัปดาห์", value: "past_1_week" },
@@ -11,18 +11,12 @@ const buttonGroupValue = [
 ];
 
 const ChartHistory = (props: ChartHistoryProps) => {
-  const { data, onSelected } = props;
-  const [period, setPeriod] = useState("past_1_month");
-
-  useEffect(() => {
-    onSelected?.(period);
-  }, [onSelected, period]);
-
+  const { data, period, onSelected } = props;
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
-      setPeriod(selectedValue);
+      onSelected(selectedValue);
     },
-    [setPeriod]
+    [onSelected]
   );
 
   return (
