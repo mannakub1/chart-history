@@ -4,14 +4,18 @@ import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
 import { useCallback } from "react";
 
-const buttonGroupValue = [
-  { label: "1 สัปดาห์", value: "past_1_week" },
-  { label: "1 เดือน", value: "past_1_month" },
-  { label: "3 เดือน", value: "past_3_months" },
-];
+const getDefaultValue = (arr) => {
+  let defaultValue;
+  arr.forEach((element) => {
+    if (element.isDefault) {
+      defaultValue = element.value;
+    }
+  });
+  return defaultValue;
+};
 
 const ChartHistory = (props: ChartHistoryProps) => {
-  const { data, period, onSelected } = props;
+  const { data, buttonGroupValue, onSelected } = props;
   const onClickButtonGroup = useCallback(
     (selectedValue: string) => {
       onSelected(selectedValue);
@@ -23,7 +27,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
     <StyledDiv>
       <Chart title="อัตราผลตอบแทน" data={data || []} />
       <ButtonGroup
-        defaultValue={period}
+        defaultValue={getDefaultValue(buttonGroupValue)}
         onSelected={onClickButtonGroup}
         values={buttonGroupValue}
       />

@@ -22,6 +22,7 @@ import {
   SearchBondResponse,
 } from "../../services/home/home-types";
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
+import { ButtonGroupValueType } from "../../components/common/ButtonGroup/type";
 import lodash from "lodash";
 import Text from "../../components/common/Text";
 
@@ -48,7 +49,14 @@ const Home = () => {
   const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol || "");
   const [isDataAvailable, setIsDataAvailable] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
-  const [period, setPeriod] = useState("past_1_month");
+  const [buttonGroupValue, setButtonGroupValue] = useState<
+    ButtonGroupValueType[]
+  >([
+    { label: "1 สัปดาห์", value: "past_1_week", isDefault: false },
+    { label: "1 เดือน", value: "past_1_month", isDefault: false },
+    { label: "3 เดือน", value: "past_3_months", isDefault: false },
+  ]);
+  const [period, setPeriod] = useState(buttonGroupValue[1].value);
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
@@ -76,6 +84,30 @@ const Home = () => {
         {
           onSuccess: (data) => {
             setData(data);
+            if (data?.yieldPrices.length > 7) {
+              setButtonGroupValue([
+                buttonGroupValue[0],
+                { ...buttonGroupValue[1], isDefault: true },
+                {
+                  ...buttonGroupValue[2],
+                  value: data?.overallAvg[1].value ? "past_1_month" : null,
+                },
+              ]);
+              setPeriod(buttonGroupValue[1].value);
+            } else {
+              setButtonGroupValue([
+                { ...buttonGroupValue[0], isDefault: true },
+                {
+                  ...buttonGroupValue[1],
+                  value: data?.overallAvg[1].value ? "past_1_month" : null,
+                },
+                {
+                  ...buttonGroupValue[2],
+                  value: data?.overallAvg[2].value ? "past_3_months" : null,
+                },
+              ]);
+              setPeriod(buttonGroupValue[0].value);
+            }
             setShowComponents(true);
             setIsDataAvailable(true);
           },
@@ -163,7 +195,7 @@ const Home = () => {
       {showComponentsWithData && (
         <ContainerBody>
           <ChartHistory
-            period={period}
+            buttonGroupValue={buttonGroupValue}
             data={data?.yieldPrices}
             onSelected={onSelectedChartHistory}
           />

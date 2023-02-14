@@ -21,7 +21,13 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
     <StyledTabs value={selected} onChange={onSelected}>
       {values?.map(({ value, label }: ButtonGroupValueType, index) => {
         return (
-          <StyledTab key={index} value={value} label={label} disableRipple />
+          <StyledTab
+            key={index}
+            value={value}
+            label={label}
+            disabled={!value ? true : false}
+            disableRipple
+          />
         );
       })}
     </StyledTabs>
