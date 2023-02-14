@@ -5,6 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { useCallback, useEffect, useRef } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Routes from "./routes";
+import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -42,10 +43,12 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={Theme}>
-        <Routes />
-        <ReactQueryDevtools initialIsOpen={true} />
-      </ThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={Theme}>
+          <Routes />
+          <ReactQueryDevtools initialIsOpen={true} />
+        </ThemeProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 };

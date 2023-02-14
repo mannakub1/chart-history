@@ -5,7 +5,7 @@ import * as paths from "../constants/paths";
 export const Routes = () => {
   return (
     <RoutesLib>
-      <Route path={paths.home()} element={<Home />} />
+      <Route path={paths.home()} element={<Home />} errorElement={<Home />} />
     </RoutesLib>
   );
 };
