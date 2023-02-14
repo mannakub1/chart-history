@@ -26,8 +26,20 @@ const BondDetail = (props: BondDetailType) => {
   const { detail } = props;
 
   const data = useMemo(() => {
-    const couponFrequency = () => {
-      switch (detail?.couponFrequency) {
+    const {
+      issueDate,
+      maturityDate,
+      parValue,
+      minimumUnit,
+      incrementUnit,
+      bondAge,
+      bondRemainingAge,
+      bondRiskLevel,
+      originalParValue,
+      couponFrequency,
+    } = detail || {};
+    const getCouponFrequencyDescription = () => {
+      switch (couponFrequency) {
         case "1":
           return "ปีละ 1 ครั้ง หรือ ทุก 12 เดือน";
         case "2":
@@ -39,22 +51,25 @@ const BondDetail = (props: BondDetailType) => {
       }
     };
     const isBondTypeSaving = getBondType() === "saving";
-    return {
-      info1: isBondTypeSaving ? `${detail?.issueDate}` : `${detail?.bondAge}`,
-      info2: isBondTypeSaving
-        ? `${detail?.maturityDate}`
-        : `${detail?.bondRemainingAge}`,
-      info3: isBondTypeSaving
-        ? `${detail?.parValue} `
-        : `${detail?.bondRiskLevel}`,
-      info4: isBondTypeSaving
-        ? `${detail?.minimumUnit} `
-        : `${detail?.maturityDate}`,
-      info5: isBondTypeSaving
-        ? `${detail?.incrementUnit} `
-        : `${detail?.originalParValue.toLocaleString()} บาท`,
-      info6: isBondTypeSaving ? null : couponFrequency(),
-    };
+
+    return isBondTypeSaving
+      ? {
+          info1: issueDate ? `${issueDate}` : "-",
+          info2: maturityDate ? `${maturityDate}` : "-",
+          info3: parValue ? `${parValue}` : "-",
+          info4: minimumUnit ? `${minimumUnit}` : "-",
+          info5: incrementUnit ? `${incrementUnit}` : "-",
+        }
+      : {
+          info1: bondAge ? `${bondAge}` : "-",
+          info2: bondRemainingAge ? `${bondRemainingAge}` : "-",
+          info3: bondRiskLevel ? `${bondRiskLevel}` : "-",
+          info4: maturityDate ? `${maturityDate}` : "-",
+          info5: originalParValue
+            ? `${originalParValue.toLocaleString()} บาท`
+            : "-",
+          info6: couponFrequency ? getCouponFrequencyDescription() : "-",
+        };
   }, [detail]);
 
   const title = useMemo(() => {
