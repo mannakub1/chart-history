@@ -2,17 +2,7 @@ import { ChartHistoryProps } from "./type";
 import { StyledDiv } from "./style";
 import ButtonGroup from "../common/ButtonGroup";
 import Chart from "../common/Chart";
-import { useCallback } from "react";
-
-const getDefaultValue = (arr) => {
-  let defaultValue;
-  arr.forEach((element) => {
-    if (element.isDefault) {
-      defaultValue = element.value;
-    }
-  });
-  return defaultValue;
-};
+import { useCallback, useMemo } from "react";
 
 const ChartHistory = (props: ChartHistoryProps) => {
   const { data, buttonGroupValue, onSelected } = props;
@@ -22,12 +12,21 @@ const ChartHistory = (props: ChartHistoryProps) => {
     },
     [onSelected]
   );
+  const getButtonGroupDefaultValue = useMemo((): string => {
+    let defaultValue;
+    buttonGroupValue.forEach((element) => {
+      if (element.isDefault) {
+        defaultValue = element.value;
+      }
+    });
+    return defaultValue;
+  }, [buttonGroupValue]);
 
   return (
     <StyledDiv>
       <Chart title="อัตราผลตอบแทน" data={data || []} />
       <ButtonGroup
-        defaultValue={getDefaultValue(buttonGroupValue)}
+        defaultValue={getButtonGroupDefaultValue}
         onSelected={onClickButtonGroup}
         values={buttonGroupValue}
       />
