@@ -80,6 +80,8 @@ const Home = () => {
   const updateButtonGroupValue = useCallback(() => {
     const yieldPriceAmount = data?.yieldPrices.length ?? 0;
     const buttonGroupArr = [...buttonGroupValue];
+    buttonGroupArr[1].value = "past_1_month";
+    buttonGroupArr[2].value = "past_3_months";
     if (yieldPriceAmount > 30) {
       buttonGroupArr[1].isDefault = true;
       setPeriod(buttonGroupValue[1].value);
