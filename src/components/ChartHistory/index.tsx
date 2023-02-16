@@ -12,7 +12,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
     },
     [onSelected]
   );
-  const getButtonGroupDefaultValue = useMemo((): string => {
+  const buttonGroupDefaultValue = useMemo(() => {
     let defaultValue;
     buttonGroupValue.forEach((element) => {
       if (element.isDefault) {
@@ -26,7 +26,7 @@ const ChartHistory = (props: ChartHistoryProps) => {
     <StyledDiv>
       <Chart title="อัตราผลตอบแทน" data={data || []} />
       <ButtonGroup
-        defaultValue={getButtonGroupDefaultValue}
+        defaultValue={buttonGroupDefaultValue}
         onSelected={onClickButtonGroup}
         values={buttonGroupValue}
       />

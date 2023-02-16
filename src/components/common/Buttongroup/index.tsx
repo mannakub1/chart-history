@@ -8,7 +8,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   const [selected, setSelected] = useState(defaultValue);
 
   const onSelected = useCallback(
-    (_event, value) => {
+    (_event, value: string) => {
       if (value != null) {
         setSelected(value);
         onSelectedProp?.(value);
@@ -18,7 +18,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   );
 
   return (
-    <StyledTabs value={selected} onChange={onSelected}>
+    <StyledTabs value={defaultValue} onChange={onSelected}>
       {values?.map(({ value, label }: ButtonGroupValueType, index) => {
         return (
           <StyledTab

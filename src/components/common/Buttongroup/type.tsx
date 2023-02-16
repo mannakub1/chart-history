@@ -6,8 +6,6 @@ export type ButtonGroupProps = {
 
 export type ButtonGroupValueType = {
   label: string;
-  value: PeriodType;
+  value?: string;
   isDefault: boolean;
 };
-
-export type PeriodType = string | null | undefined;

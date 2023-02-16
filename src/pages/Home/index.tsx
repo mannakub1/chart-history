@@ -22,10 +22,7 @@ import {
   SearchBondResponse,
 } from "../../services/home/home-types";
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
-import {
-  ButtonGroupValueType,
-  PeriodType,
-} from "../../components/common/ButtonGroup/type";
+import { ButtonGroupValueType } from "../../components/common/ButtonGroup/type";
 import lodash from "lodash";
 import Text from "../../components/common/Text";
 
@@ -59,7 +56,9 @@ const Home = () => {
     { label: "1 เดือน", value: "past_1_month", isDefault: false },
     { label: "3 เดือน", value: "past_3_months", isDefault: false },
   ]);
-  const [period, setPeriod] = useState<PeriodType>(buttonGroupValue[1].value);
+  const [period, setPeriod] = useState<string | undefined>(
+    buttonGroupValue[1].value
+  );
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
@@ -78,25 +77,28 @@ const Home = () => {
   }, [searchBond]);
 
   const updateButtonGroupValue = useCallback(() => {
-    const yieldPriceAmount = data?.yieldPrices.length ?? 0;
+    let overallAvgAmount = 0;
+    data?.overallAvg.forEach((data) =>
+      data.value ? (overallAvgAmount += 1) : null
+    );
     const buttonGroupArr = [...buttonGroupValue];
     buttonGroupArr[1].value = "past_1_month";
     buttonGroupArr[2].value = "past_3_months";
-    if (yieldPriceAmount > 30) {
+    if (overallAvgAmount >= 3) {
       buttonGroupArr[1].isDefault = true;
       setPeriod(buttonGroupValue[1].value);
-    } else if (yieldPriceAmount > 7) {
+    } else if (overallAvgAmount === 2) {
       buttonGroupArr[1].isDefault = true;
-      buttonGroupArr[2].value = null;
+      buttonGroupArr[2].value = undefined;
       setPeriod(buttonGroupValue[1].value);
     } else {
       buttonGroupArr[0].isDefault = true;
-      buttonGroupArr[1].value = null;
-      buttonGroupArr[2].value = null;
+      buttonGroupArr[1].value = undefined;
+      buttonGroupArr[2].value = undefined;
       setPeriod(buttonGroupValue[0].value);
     }
     setButtonGroupValue(buttonGroupArr);
-  }, [buttonGroupValue, data?.yieldPrices.length]);
+  }, [buttonGroupValue, data?.overallAvg.length]);
 
   useEffect(() => {
     if (period && thaiSymbol) {
