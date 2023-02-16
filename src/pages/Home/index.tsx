@@ -78,19 +78,21 @@ const Home = () => {
 
   const updateButtonGroupValue = useCallback(() => {
     let overallAvgAmount = 0;
-    data?.overallAvg.forEach((data) =>
-      data.value ? (overallAvgAmount += 1) : null
-    );
+    data?.overallAvg.forEach((data) => {
+      if (data?.value) {
+        overallAvgAmount += 1;
+      }
+    });
     const buttonGroupArr = [...buttonGroupValue];
     buttonGroupArr[1].value = "past_1_month";
     buttonGroupArr[2].value = "past_3_months";
-    if (overallAvgAmount >= 3) {
+    if (overallAvgAmount > 1) {
       buttonGroupArr[1].isDefault = true;
       setPeriod(buttonGroupValue[1].value);
-    } else if (overallAvgAmount === 2) {
-      buttonGroupArr[1].isDefault = true;
       buttonGroupArr[2].value = undefined;
-      setPeriod(buttonGroupValue[1].value);
+      if (overallAvgAmount === 3) {
+        buttonGroupArr[2].value = "past_3_months";
+      }
     } else {
       buttonGroupArr[0].isDefault = true;
       buttonGroupArr[1].value = undefined;
