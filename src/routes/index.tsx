@@ -7,12 +7,7 @@ export const Routes = () => {
   return (
     <RoutesLib>
       <Route path={paths.home()} element={<Home />} errorElement={<Home />} />
-      <Route
-        path="/not-found"
-        element={<NotFound />}
-        errorElement={<NotFound />}
-      />
-      <Route path="*" element={<Navigate to="/not-found" replace />} />
+      <Route path="*" element={<NotFound />} />
     </RoutesLib>
   );
 };
