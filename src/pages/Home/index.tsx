@@ -15,6 +15,7 @@ import Overall from "../../components/Overall";
 import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
 
+import { ButtonGroupValue } from "../../components/ChartHistory/type";
 import { useGetBond, useSearchBond } from "../../services/home/home-query";
 import {
   GetBondResponse,
@@ -43,9 +44,24 @@ const mapSearchDataApiToComponent = (
 };
 const getButtonGroupDefaultValue = (): ButtonGroupValueType[] => {
   return [
-    { label: "1 สัปดาห์", value: "past_1_week", isDefault: false },
-    { label: "1 เดือน", value: "past_1_month", isDefault: true },
-    { label: "3 เดือน", value: "past_3_months", isDefault: false },
+    {
+      label: "1 สัปดาห์",
+      value: ButtonGroupValue.ONE_WEEK,
+      isDefault: false,
+      isDisable: false,
+    },
+    {
+      label: "1 เดือน",
+      value: ButtonGroupValue.ONE_MONTH,
+      isDefault: true,
+      isDisable: false,
+    },
+    {
+      label: "3 เดือน",
+      value: ButtonGroupValue.THREE_MONTH,
+      isDefault: false,
+      isDisable: false,
+    },
   ];
 };
 
@@ -79,7 +95,7 @@ const Home = () => {
   }, [searchBond]);
 
   const updateButtonGroupValue = useCallback(() => {
-    let overallAvgAmount = 1;
+    let overallAvgAmount = 0;
     data?.overallAvg.forEach((data) => {
       if (data?.value) {
         overallAvgAmount += 1;
@@ -87,18 +103,18 @@ const Home = () => {
     });
 
     let currentButtonGroupValue = getButtonGroupDefaultValue();
-    let currentPeriod = "past_1_month";
+    let currentPeriod = ButtonGroupValue.ONE_MONTH;
 
     if (overallAvgAmount === 2) {
-      currentButtonGroupValue[2].value = undefined;
+      currentButtonGroupValue[2].isDisable = true;
     } else if (overallAvgAmount < 2) {
       currentButtonGroupValue[0].isDefault = true;
       currentButtonGroupValue[1].isDefault = false;
 
-      currentButtonGroupValue[1].value = undefined;
-      currentButtonGroupValue[2].value = undefined;
+      currentButtonGroupValue[1].isDisable = true;
+      currentButtonGroupValue[2].isDisable = true;
 
-      currentPeriod = "past_1_week";
+      currentPeriod = ButtonGroupValue.ONE_WEEK;
     }
     setPeriod(currentPeriod);
     setButtonGroupValue(currentButtonGroupValue);

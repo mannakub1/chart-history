@@ -8,4 +8,5 @@ export type ButtonGroupValueType = {
   label: string;
   value?: string;
   isDefault: boolean;
+  isDisable: boolean;
 };
