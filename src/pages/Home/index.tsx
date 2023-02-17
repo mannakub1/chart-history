@@ -44,7 +44,7 @@ const mapSearchDataApiToComponent = (
 const getButtonGroupDefaultValue = (): ButtonGroupValueType[] => {
   return [
     { label: "1 สัปดาห์", value: "past_1_week", isDefault: false },
-    { label: "1 เดือน", value: "past_1_month", isDefault: false },
+    { label: "1 เดือน", value: "past_1_month", isDefault: true },
     { label: "3 เดือน", value: "past_3_months", isDefault: false },
   ];
 };
@@ -72,16 +72,12 @@ const Home = () => {
     hasNextPage,
   } = useSearchBond(q);
   const { mutate: getBond } = useGetBond();
+
   useEffect(() => {
     const newData = mapSearchDataApiToComponent(searchBond?.pages || []);
     setValueSearch(newData);
   }, [searchBond]);
-  useEffect(() => {
-    console.log(buttonGroupValue);
-  }, [buttonGroupValue]);
-  useEffect(() => {
-    console.log(data?.overallAvg);
-  }, [data]);
+
   const updateButtonGroupValue = useCallback(() => {
     let overallAvgAmount = 1;
     data?.overallAvg.forEach((data) => {
@@ -89,23 +85,24 @@ const Home = () => {
         overallAvgAmount += 1;
       }
     });
-    let buttonGroupArr = getButtonGroupDefaultValue();
 
-    if (overallAvgAmount > 1) {
-      buttonGroupArr[1].isDefault = true;
-      setPeriod(buttonGroupArr[1].value);
-      if (overallAvgAmount === 2) {
-        buttonGroupArr[2].value = undefined;
-      }
-    } else {
-      buttonGroupArr[0].isDefault = true;
-      buttonGroupArr[1].value = undefined;
-      buttonGroupArr[2].value = undefined;
-      setPeriod(buttonGroupArr[0].value);
+    let currentButtonGroupValue = getButtonGroupDefaultValue();
+    let currentPeriod = "past_1_month";
+
+    if (overallAvgAmount === 2) {
+      currentButtonGroupValue[2].value = undefined;
+    } else if (overallAvgAmount < 2) {
+      currentButtonGroupValue[0].isDefault = true;
+      currentButtonGroupValue[1].isDefault = false;
+
+      currentButtonGroupValue[1].value = undefined;
+      currentButtonGroupValue[2].value = undefined;
+
+      currentPeriod = "past_1_week";
     }
-
-    setButtonGroupValue(buttonGroupArr);
-  }, [buttonGroupValue, data]);
+    setPeriod(currentPeriod);
+    setButtonGroupValue(currentButtonGroupValue);
+  }, [data?.overallAvg, setButtonGroupValue, setPeriod]);
 
   useEffect(() => {
     if (period && thaiSymbol) {
@@ -138,6 +135,7 @@ const Home = () => {
     setShowComponents,
     setIsDataAvailable,
     setData,
+    updateButtonGroupValue,
   ]);
 
   const scrollProp = useMemo(() => {
