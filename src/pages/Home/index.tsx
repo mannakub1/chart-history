@@ -41,6 +41,13 @@ const mapSearchDataApiToComponent = (
 
   return lodash.flatten(result);
 };
+const getButtonGroupDefaultValue = (): ButtonGroupValueType[] => {
+  return [
+    { label: "1 สัปดาห์", value: "past_1_week", isDefault: false },
+    { label: "1 เดือน", value: "past_1_month", isDefault: false },
+    { label: "3 เดือน", value: "past_3_months", isDefault: false },
+  ];
+};
 
 const Home = () => {
   const router = useRouter();
@@ -51,14 +58,8 @@ const Home = () => {
   const [showComponents, setShowComponents] = useState(true);
   const [buttonGroupValue, setButtonGroupValue] = useState<
     ButtonGroupValueType[]
-  >([
-    { label: "1 สัปดาห์", value: "past_1_week", isDefault: false },
-    { label: "1 เดือน", value: "past_1_month", isDefault: false },
-    { label: "3 เดือน", value: "past_3_months", isDefault: false },
-  ]);
-  const [period, setPeriod] = useState<string | undefined>(
-    buttonGroupValue[1].value
-  );
+  >(getButtonGroupDefaultValue());
+  const [period, setPeriod] = useState<string | undefined>("past_1_month");
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
@@ -75,32 +76,36 @@ const Home = () => {
     const newData = mapSearchDataApiToComponent(searchBond?.pages || []);
     setValueSearch(newData);
   }, [searchBond]);
-
+  useEffect(() => {
+    console.log(buttonGroupValue);
+  }, [buttonGroupValue]);
+  useEffect(() => {
+    console.log(data?.overallAvg);
+  }, [data]);
   const updateButtonGroupValue = useCallback(() => {
-    let overallAvgAmount = 0;
+    let overallAvgAmount = 1;
     data?.overallAvg.forEach((data) => {
       if (data?.value) {
         overallAvgAmount += 1;
       }
     });
-    const buttonGroupArr = [...buttonGroupValue];
-    buttonGroupArr[1].value = "past_1_month";
-    buttonGroupArr[2].value = "past_3_months";
+    let buttonGroupArr = getButtonGroupDefaultValue();
+
     if (overallAvgAmount > 1) {
       buttonGroupArr[1].isDefault = true;
-      setPeriod(buttonGroupValue[1].value);
-      buttonGroupArr[2].value = undefined;
-      if (overallAvgAmount === 3) {
-        buttonGroupArr[2].value = "past_3_months";
+      setPeriod(buttonGroupArr[1].value);
+      if (overallAvgAmount === 2) {
+        buttonGroupArr[2].value = undefined;
       }
     } else {
       buttonGroupArr[0].isDefault = true;
       buttonGroupArr[1].value = undefined;
       buttonGroupArr[2].value = undefined;
-      setPeriod(buttonGroupValue[0].value);
+      setPeriod(buttonGroupArr[0].value);
     }
+
     setButtonGroupValue(buttonGroupArr);
-  }, [buttonGroupValue, data?.overallAvg.length]);
+  }, [buttonGroupValue, data]);
 
   useEffect(() => {
     if (period && thaiSymbol) {
