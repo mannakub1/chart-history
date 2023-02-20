@@ -75,7 +75,9 @@ const Home = () => {
   const [buttonGroupValue, setButtonGroupValue] = useState<
     ButtonGroupValueType[]
   >(getButtonGroupDefaultValue());
-  const [period, setPeriod] = useState<string | undefined>("past_1_month");
+  const [period, setPeriod] = useState<string | undefined>(
+    ButtonGroupValue.ONE_MONTH
+  );
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);
