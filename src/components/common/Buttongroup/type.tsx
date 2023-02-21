@@ -6,5 +6,7 @@ export type ButtonGroupProps = {
 
 export type ButtonGroupValueType = {
   label: string;
-  value: string | null | undefined;
+  value?: string;
+  isDefault: boolean;
+  isDisable: boolean;
 };
