@@ -8,6 +8,7 @@ import ListSearch from "./component/ListSearch.tsx";
 
 import { StyleSearch, StyleSearchContainer, StyleLink, FlexRow } from "./style";
 import { SearchProps } from "./type";
+import ReactGA from "react-ga";
 
 const Search = (props: SearchProps) => {
   const { setShowComponents, onSearch, onSelected, valueSearch, scrollProp } =
@@ -53,6 +54,21 @@ const Search = (props: SearchProps) => {
       setSearchValue(name);
       setShowComponents(true);
       setIsShowIconClear(false);
+
+      ReactGA.initialize("G-7F8DBKCRGJ");
+      console.log("==== debug ====");
+      ReactGA.set({
+        action: "Click",
+        category: "CBWalletYTMGraph",
+        label: `CBWalletYTMGraph_Select${name}`,
+        screenName: "CBWalletYTMGraph",
+      });
+
+      ReactGA.event({
+        category: "CBWalletYTMGraph", // Required
+        action: "Click", // Required
+        label: "CBWalletYTMGraph_Select",
+      });
     },
     [
       onSelected,

@@ -19,6 +19,7 @@ import { ButtonGroupValue } from "../../components/ChartHistory/type";
 import { useGetBond, useSearchBond } from "../../services/home/home-query";
 import {
   GetBondResponse,
+  OverallResponse,
   SearchBondPagingResponse,
   SearchBondResponse,
 } from "../../services/home/home-types";
@@ -96,31 +97,27 @@ const Home = () => {
     setValueSearch(newData);
   }, [searchBond]);
 
-  const updateButtonGroupValue = useCallback(() => {
-    let overallAvgAmount = 0;
-    data?.overallAvg.forEach((data) => {
-      if (data?.value) {
-        overallAvgAmount += 1;
+  useEffect(() => {
+    let indexDefault: number = -1;
+    let currentButtonGroupValue = getButtonGroupDefaultValue();
+
+    data?.overallAvg.forEach((data: OverallResponse, index: number) => {
+      const { value } = data;
+
+      if (!value) {
+        currentButtonGroupValue[index].isDisable = true;
+      }
+
+      if (value && (index < 2 || indexDefault === -1)) {
+        indexDefault = index;
       }
     });
 
-    let currentButtonGroupValue = getButtonGroupDefaultValue();
-    let currentPeriod = ButtonGroupValue.ONE_MONTH;
-
-    if (overallAvgAmount === 2) {
-      currentButtonGroupValue[2].isDisable = true;
-    } else if (overallAvgAmount < 2) {
-      currentButtonGroupValue[0].isDefault = true;
-      currentButtonGroupValue[1].isDefault = false;
-
-      currentButtonGroupValue[1].isDisable = true;
-      currentButtonGroupValue[2].isDisable = true;
-
-      currentPeriod = ButtonGroupValue.ONE_WEEK;
+    if (indexDefault !== -1) {
+      currentButtonGroupValue[indexDefault].isDefault = true;
     }
-    setPeriod(currentPeriod);
     setButtonGroupValue(currentButtonGroupValue);
-  }, [data?.overallAvg, setButtonGroupValue, setPeriod]);
+  }, [data?.overallAvg, setButtonGroupValue]);
 
   useEffect(() => {
     if (period && thaiSymbol) {
@@ -132,7 +129,6 @@ const Home = () => {
         {
           onSuccess: (data) => {
             setData(data);
-            updateButtonGroupValue();
             setShowComponents(true);
             setIsDataAvailable(true);
           },
@@ -153,7 +149,6 @@ const Home = () => {
     setShowComponents,
     setIsDataAvailable,
     setData,
-    updateButtonGroupValue,
   ]);
 
   const scrollProp = useMemo(() => {
@@ -186,6 +181,7 @@ const Home = () => {
   const onValueChange = useCallback(
     (selectedValue: string) => {
       setThaiSymbol(selectedValue);
+      setPeriod(ButtonGroupValue.ONE_MONTH);
     },
     [setThaiSymbol]
   );
