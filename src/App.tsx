@@ -18,6 +18,10 @@ const Theme = createTheme({
 const App = () => {
   const isInitial = useRef(false);
 
+  useEffect(() => {
+    document.title = "Chart History";
+  }, []);
+
   const handleOnError = useCallback((error: any) => {
     if (error !== "Missing queryFn") {
       console.log("watch Error", error);

@@ -11,8 +11,6 @@ const createClient = () => {
   const ax = axios.create();
   ax.interceptors.request.use((request: AxiosRequestConfig) => {
     request.url = `${BASE_TODO_API_HOST}/${request.url}`;
-
-    console.log("request.url", request.url);
     const headers = request.headers || {};
 
     // const token = getToken();
