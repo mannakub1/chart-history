@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import dayjs from "dayjs";
 import humps from "humps";
 import { ContentType, deepLoop } from "./tools";
-import { v4 } from "uuid";
 import qs from "qs";
 
 const BASE_TODO_API_HOST = `${process.env.REACT_APP_GT_HOST}`;
@@ -13,12 +12,10 @@ const createClient = () => {
     request.url = `${BASE_TODO_API_HOST}/${request.url}`;
     const headers = request.headers || {};
 
-    // const token = getToken();
-    // if (token) {
-    //   headers.common["Authorization"] = `Bearer ${token}`;
-    // }
-
-    headers.common["x-trace-id"] = v4();
+    headers.common["x-trace-id"] = process.env.REACT_APP_X_TRACE_ID;
+    headers.common[
+      "Authorization"
+    ] = `Bearer ${process.env.REACT_APP_GT_TOKEN}`;
 
     if (headers["Content-Type"] === ContentType.FORMDATA) {
       if (request.data) {
@@ -66,10 +63,7 @@ const createClient = () => {
     (error: any) => {
       const { response } = error;
       const { message } = response["data"] || {};
-      // if token expired error code = 900012
-      //   if (code === 900012) {
-      //     setToken("");
-      //   }
+
       console.log("error  response handle->", {
         error,
         message,

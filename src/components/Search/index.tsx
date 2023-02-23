@@ -56,17 +56,21 @@ const Search = (props: SearchProps) => {
       setIsShowIconClear(false);
 
       ReactGA.initialize("UA-206413158-1", {
-        titleCase: false,
         debug: true,
       });
 
+      const serviceName = "CBWalletYTMGraph";
       ReactGA.event({
-        category: "CBWalletYTMGraph", // Required
+        category: serviceName, // Required
         action: "Click", // Required
-        label: `CBWalletYTMGraph_Select${name}`,
+        label: `${serviceName}_Select${name}`,
       });
 
-      ReactGA.pageview("CBWalletYTMGraph");
+      ReactGA.pageview(
+        `${window.location.pathname}${window.location.search}`,
+        [],
+        serviceName
+      );
     },
     [
       onSelected,
