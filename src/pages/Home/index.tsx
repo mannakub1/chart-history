@@ -16,7 +16,11 @@ import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
 
 import { ButtonGroupValue } from "../../components/ChartHistory/type";
-import { useGetBond, useSearchBond } from "../../services/home/home-query";
+import {
+  useGetBond,
+  useGetSymbolList,
+  useSearchBond,
+} from "../../services/home/home-query";
 import {
   GetBondResponse,
   OverallResponse,
@@ -48,13 +52,13 @@ const getButtonGroupDefaultValue = (): ButtonGroupValueType[] => {
     {
       label: "1 สัปดาห์",
       value: ButtonGroupValue.ONE_WEEK,
-      isDefault: false,
+      isDefault: true,
       isDisable: false,
     },
     {
       label: "1 เดือน",
       value: ButtonGroupValue.ONE_MONTH,
-      isDefault: true,
+      isDefault: false,
       isDisable: false,
     },
     {
@@ -79,6 +83,9 @@ const Home = () => {
   const [period, setPeriod] = useState<string | undefined>(
     ButtonGroupValue.ONE_MONTH
   );
+
+  const { data: dataJson } = useGetSymbolList();
+  console.log("=== dataJson ===", dataJson);
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);

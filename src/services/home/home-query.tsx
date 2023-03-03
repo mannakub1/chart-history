@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { api } from "../../utils/api";
 import {
   GetBondRequest,
@@ -10,11 +15,35 @@ import {
 export const SEARCH = "thaisymbols";
 export const GET_BOND = "inventory_prices";
 
+export const useGetSymbolList = () => {
+  return useQuery([], async () => {
+    const response = await fetch(
+      "https://d3556x93ql2o55.cloudfront.net/T312812469857/symbol-list.json",
+      {
+        method: "get",
+        headers: new Headers({
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Method": "GET, PUT, POST, DELETE, OPTIONS",
+          "Access-Control-Allow-Header":
+            "Origin, X-Requested-With, Content-Type, Accept",
+        }),
+      }
+    );
+
+    // const parsed = await response.json();
+    console.log("==== parse ====", response);
+    console.log("==== body ====", await response.json());
+
+    return await response.json();
+  });
+};
+
 export const useSearchBond = (q?: string) => {
   return useInfiniteQuery<SearchBondPagingResponse>(
     [SEARCH, q],
     async ({ pageParam = 0 }) => {
       const limit = 10;
+
       const { data } = await api.gt.post<SearchBondResponse[]>(SEARCH, {
         mmCode: process.env.REACT_APP_GT_MM_CODE,
         q: q || "",

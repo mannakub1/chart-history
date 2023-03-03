@@ -55,14 +55,14 @@ const Search = (props: SearchProps) => {
       setShowComponents(true);
       setIsShowIconClear(false);
 
-      ReactGA.initialize("UA-206413158-1", {
-        debug: true,
+      ReactGA.initialize(`${process.env.REACT_APP_GA_KEY}`, {
+        debug: process.env.REACT_APP_GA_DEBUG === "true",
       });
 
       const serviceName = "CBWalletYTMGraph";
       ReactGA.event({
-        category: serviceName, // Required
-        action: "Click", // Required
+        category: serviceName,
+        action: "Click",
         label: `${serviceName}_Select${name}`,
       });
 
