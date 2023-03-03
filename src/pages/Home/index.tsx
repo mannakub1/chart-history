@@ -16,16 +16,12 @@ import BondDetail from "../../components/BondDetail";
 import ChartHistory from "../../components/ChartHistory";
 
 import { ButtonGroupValue } from "../../components/ChartHistory/type";
-import {
-  useGetBond,
-  useGetSymbolList,
-  useSearchBond,
-} from "../../services/home/home-query";
+import { useGetBond, useSearchBond } from "../../services/home/home-query";
 import {
   GetBondResponse,
   OverallResponse,
-  SearchBondPagingResponse,
-  SearchBondResponse,
+  SearchSymbolPagingResponse,
+  SymbolType,
 } from "../../services/home/home-types";
 import { ItemSearchListType } from "../../components/Search/component/ListSearch.tsx/type";
 import { ButtonGroupValueType } from "../../components/common/ButtonGroup/type";
@@ -33,12 +29,12 @@ import lodash from "lodash";
 import Text from "../../components/common/Text";
 
 const mapSearchDataApiToComponent = (
-  searchBond: SearchBondPagingResponse[]
+  searchBond: SearchSymbolPagingResponse[]
 ) => {
   const result = searchBond?.map(
-    (responseWithpaging: SearchBondPagingResponse) => {
+    (responseWithpaging: SearchSymbolPagingResponse) => {
       const { data } = responseWithpaging;
-      return data?.map((d: SearchBondResponse) => {
+      return data?.map((d: SymbolType) => {
         const { thaiSymbol, nameTh } = d;
         return { name: thaiSymbol, description: nameTh };
       });
@@ -84,8 +80,6 @@ const Home = () => {
     ButtonGroupValue.ONE_MONTH
   );
 
-  const { data: dataJson } = useGetSymbolList();
-  console.log("=== dataJson ===", dataJson);
   const [valueSearch, setValueSearch] = useState<
     ItemSearchListType[] | undefined
   >([]);

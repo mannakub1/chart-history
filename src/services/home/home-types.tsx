@@ -9,7 +9,19 @@ type Paging = {
   nextPage: number;
 };
 
+export type SymbolType = {
+  thaiSymbol: string;
+  nameTh: string;
+};
+
+export type SymbolListType = {
+  data: SymbolType[];
+};
+
 export type SearchBondPagingResponse = ResponseWithPaging<SearchBondResponse[]>;
+export type SearchSymbolPagingResponse = ResponseWithPaging<
+  SymbolType[] | undefined
+>;
 
 type ResponseWithPaging<T> = {
   data: T;
@@ -32,6 +44,36 @@ export type ChartResponse = {
 export type OverallResponse = {
   value: string;
   label: string;
+};
+
+export type ChartTypeResponse = {
+  past1Week: ChartResponse[];
+  past1Month: ChartResponse[];
+  past3Months: ChartResponse[];
+};
+
+export type GetBondFromFileResponse = {
+  mmCode: string;
+  thaiSymbol: string;
+  nameEn: string;
+  nameTh: string;
+  issueDate: string;
+  maturityDate: string;
+  bondType: string;
+  bondRiskLevel: string;
+  bondRemainingAge: string;
+  issuerImageUrl: string;
+  originalParValue: string;
+  parValue: string;
+  minimumUnit: string;
+  incrementUnit: string;
+  couponPayment: string;
+  couponFrequency: string;
+  bondAge: string;
+  coupons: string;
+  couponRate: string;
+  yieldPrices: ChartTypeResponse;
+  overallAvg: OverallResponse[];
 };
 
 export type GetBondResponse = {

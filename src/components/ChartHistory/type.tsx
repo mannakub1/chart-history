@@ -8,7 +8,7 @@ export type ChartHistoryProps = {
 };
 
 export enum ButtonGroupValue {
-  ONE_WEEK = "past_1_week",
-  ONE_MONTH = "past_1_month",
-  THREE_MONTH = "past_3_months",
+  ONE_WEEK = "past1Week",
+  ONE_MONTH = "past1Month",
+  THREE_MONTH = "past3Months",
 }

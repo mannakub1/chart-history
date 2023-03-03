@@ -1,58 +1,58 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { api } from "../../utils/api";
 import {
+  GetBondFromFileResponse,
   GetBondRequest,
   GetBondResponse,
-  SearchBondPagingResponse,
-  SearchBondResponse,
+  SearchSymbolPagingResponse,
+  SymbolType,
 } from "./home-types";
+import humps from "humps";
 
-export const SEARCH = "thaisymbols";
-export const GET_BOND = "inventory_prices";
-
-export const useGetSymbolList = () => {
-  return useQuery([], async () => {
-    const response = await fetch(
-      "https://d3556x93ql2o55.cloudfront.net/T312812469857/symbol-list.json",
-      {
-        method: "get",
-        headers: new Headers({
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Method": "GET, PUT, POST, DELETE, OPTIONS",
-          "Access-Control-Allow-Header":
-            "Origin, X-Requested-With, Content-Type, Accept",
-        }),
-      }
-    );
-
-    // const parsed = await response.json();
-    console.log("==== parse ====", response);
-    console.log("==== body ====", await response.json());
-
-    return await response.json();
-  });
-};
+export const SEARCH = "symbol-list.json";
 
 export const useSearchBond = (q?: string) => {
-  return useInfiniteQuery<SearchBondPagingResponse>(
+  const queryClient = useQueryClient();
+  const limit = 10;
+  const mmCode = process.env.REACT_APP_GT_MM_CODE;
+  const keySymboleList = [SEARCH, mmCode];
+
+  return useInfiniteQuery<SearchSymbolPagingResponse>(
     [SEARCH, q],
     async ({ pageParam = 0 }) => {
-      const limit = 10;
+      let symbolList = queryClient.getQueryData<SymbolType[]>(keySymboleList);
+      if (!symbolList) {
+        const response = await fetch(
+          `${process.env.REACT_APP_CDN_HOST}/${mmCode}/${SEARCH}`,
+          {
+            method: "get",
+          }
+        );
 
-      const { data } = await api.gt.post<SearchBondResponse[]>(SEARCH, {
-        mmCode: process.env.REACT_APP_GT_MM_CODE,
-        q: q || "",
-        offset: pageParam * limit,
-        limit,
-      });
+        const result = await response.json();
+        if (result) {
+          result.data = humps.camelizeKeys(result.data);
+          symbolList = result.data;
+          queryClient.setQueryData<SymbolType[]>(keySymboleList, result.data);
+        }
+      }
 
-      const responseWithPaging: SearchBondPagingResponse = {
-        data: data.data,
+      let findSymbolList: SymbolType[] = [];
+      if (q && q !== "") {
+        for (const symbol of symbolList || []) {
+          const { thaiSymbol } = symbol;
+          const thaiSymbolLowerCase = thaiSymbol.toLowerCase();
+          const qLowerCase = q.toLowerCase();
+          if (thaiSymbolLowerCase.indexOf(qLowerCase) > -1) {
+            findSymbolList.push(symbol);
+          }
+        }
+      } else {
+        findSymbolList = symbolList || [];
+      }
+
+      const responseWithPaging: SearchSymbolPagingResponse = {
+        data: findSymbolList?.slice(pageParam * limit, (pageParam + 1) * limit),
         paging: {
           page: pageParam,
           nextPage: pageParam + 1,
@@ -61,7 +61,7 @@ export const useSearchBond = (q?: string) => {
       return responseWithPaging;
     },
     {
-      getNextPageParam: (response: SearchBondPagingResponse) => {
+      getNextPageParam: (response: SearchSymbolPagingResponse) => {
         const { data, paging } = response;
         if (!data) return null;
         return paging.nextPage;
@@ -73,34 +73,41 @@ export const useSearchBond = (q?: string) => {
 export const useGetBond = () => {
   const queryClient = useQueryClient();
   return useMutation(async (params: GetBondRequest) => {
+    const mmCode = process.env.REACT_APP_GT_MM_CODE;
+    const GET_BOND = `thai-symbol`;
     const keyThaiSymbol = [GET_BOND, params.thaiSymbol];
-    const isClearCache =
-      queryClient.getQueryData<GetBondResponse>(keyThaiSymbol);
+    let bond = queryClient.getQueryData<GetBondFromFileResponse>(keyThaiSymbol);
 
-    if (!isClearCache) {
+    if (!bond) {
       queryClient.removeQueries([GET_BOND]);
+
+      const response = await fetch(
+        `${process.env.REACT_APP_CDN_HOST}/${mmCode}/thai-symbol-${params.thaiSymbol}.json`,
+        {
+          method: "get",
+        }
+      );
+
+      let result = await response.json();
+      if (result) {
+        result = humps.camelizeKeys(result);
+        bond = result;
+      }
+      if (typeof params.thaiSymbol == "string") {
+        queryClient.setQueryData<GetBondFromFileResponse | undefined>(
+          keyThaiSymbol,
+          bond
+        );
+      }
     }
 
-    const key = [GET_BOND, params.thaiSymbol, params.period];
-    const oldData = queryClient.getQueryData<GetBondResponse>(key);
+    const responseBond = bond
+      ? {
+          ...bond,
+          yieldPrices: bond?.yieldPrices[`${params.period}`],
+        }
+      : undefined;
 
-    if (oldData) {
-      return oldData;
-    }
-
-    const paramsRequest = {
-      ...params,
-      mmCode: process.env.REACT_APP_GT_MM_CODE,
-    };
-    const { data } = await api.gt.post<GetBondResponse>(
-      GET_BOND,
-      paramsRequest
-    );
-
-    if (typeof params.thaiSymbol == "string") {
-      queryClient.setQueryData<string>(keyThaiSymbol, params.thaiSymbol);
-    }
-    queryClient.setQueryData<GetBondResponse>(key, data.data);
-    return data.data;
+    return responseBond;
   });
 };
