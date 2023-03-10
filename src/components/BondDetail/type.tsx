@@ -1,6 +1,7 @@
 import { GetBondResponse } from "../../services/home/home-types";
 export type BondDetailType = {
   detail: GetBondResponse | undefined;
+  bondType: string;
 };
 
 export type DetailType = {

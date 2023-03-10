@@ -4,7 +4,6 @@ import { BondDetailType } from "./type";
 import Text from "../common/Text";
 import { GRAY_565656 } from "../../constants/colors";
 
-const getBondType = () => process.env.REACT_APP_TYPE;
 const menuCorp = [
   "อายุหุ้นกู้",
   "อายุคงเหลือ",
@@ -23,7 +22,7 @@ const menuSaving = [
 ];
 
 const BondDetail = (props: BondDetailType) => {
-  const { detail } = props;
+  const { detail, bondType } = props;
 
   const data = useMemo(() => {
     const {
@@ -50,7 +49,7 @@ const BondDetail = (props: BondDetailType) => {
           return "ปีละ 12 ครั้ง หรือ ทุก 1 เดือน";
       }
     };
-    const isBondTypeSaving = getBondType() === "saving";
+    const isBondTypeSaving = bondType === "SB";
 
     return isBondTypeSaving
       ? {
@@ -70,18 +69,18 @@ const BondDetail = (props: BondDetailType) => {
             : "-",
           info6: couponFrequency ? getCouponFrequencyDescription() : "-",
         };
-  }, [detail]);
+  }, [detail, bondType]);
 
   const title = useMemo(() => {
-    if (getBondType() === "saving") {
+    if (bondType === "SB") {
       return "ข้อมูลพันธบัตร";
     }
     return "ข้อมูลหุ้นกู้";
-  }, []);
+  }, [bondType]);
 
   const content = useMemo(() => {
     let menu = menuCorp;
-    if (getBondType() === "saving") {
+    if (bondType === "SB") {
       menu = menuSaving;
     }
     return Object.entries(data).map(([, value], index) => {
@@ -94,7 +93,7 @@ const BondDetail = (props: BondDetailType) => {
         </FlexRow>
       );
     });
-  }, [data]);
+  }, [data, bondType]);
 
   return (
     <Container>

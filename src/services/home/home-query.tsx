@@ -1,17 +1,19 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
-import { api } from "../../utils/api";
 import {
   GetBondFromFileResponse,
   GetBondRequest,
-  GetBondResponse,
+  GetSearchBondRequest,
   SearchSymbolPagingResponse,
+  SymbolListType,
   SymbolType,
 } from "./home-types";
-import humps from "humps";
+import { getOrInitQueryData } from "../../utils/helper";
 
-export const SEARCH = "symbol-list.json";
+export const SEARCH = "SYMBOLLIST.json";
+export const SYMBOL = (symbol) => `${symbol}.json`;
 
-export const useSearchBond = (q?: string) => {
+export const useSearchBond = (params: GetSearchBondRequest) => {
+  const { q, bondType } = params;
   const queryClient = useQueryClient();
   const limit = 10;
   const mmCode = process.env.REACT_APP_GT_MM_CODE;
@@ -20,39 +22,26 @@ export const useSearchBond = (q?: string) => {
   return useInfiniteQuery<SearchSymbolPagingResponse>(
     [SEARCH, q],
     async ({ pageParam = 0 }) => {
-      let symbolList = queryClient.getQueryData<SymbolType[]>(keySymboleList);
-      if (!symbolList) {
-        const response = await fetch(
-          `${process.env.REACT_APP_CDN_HOST}/${mmCode}/${SEARCH}`,
-          {
-            method: "get",
-          }
-        );
+      const path = `${
+        process.env.REACT_APP_CDN_HOST
+      }/${mmCode}-${bondType.toUpperCase()}-${SEARCH}`;
 
-        const result = await response.json();
-        if (result) {
-          result.data = humps.camelizeKeys(result.data);
-          symbolList = result.data;
-          queryClient.setQueryData<SymbolType[]>(keySymboleList, result.data);
-        }
-      }
+      const symbolList = await getOrInitQueryData<SymbolListType>(
+        queryClient,
+        keySymboleList,
+        path
+      );
 
-      let findSymbolList: SymbolType[] = [];
-      if (q && q !== "") {
-        for (const symbol of symbolList || []) {
-          const { thaiSymbol } = symbol;
-          const thaiSymbolLowerCase = thaiSymbol.toLowerCase();
-          const qLowerCase = q.toLowerCase();
-          if (thaiSymbolLowerCase.indexOf(qLowerCase) > -1) {
-            findSymbolList.push(symbol);
-          }
-        }
-      } else {
-        findSymbolList = symbolList || [];
-      }
+      const currentSymbolList: SymbolType[] = findSymboleList(
+        symbolList.data,
+        q
+      );
 
       const responseWithPaging: SearchSymbolPagingResponse = {
-        data: findSymbolList?.slice(pageParam * limit, (pageParam + 1) * limit),
+        data: currentSymbolList?.slice(
+          pageParam * limit,
+          (pageParam + 1) * limit
+        ),
         paging: {
           page: pageParam,
           nextPage: pageParam + 1,
@@ -73,33 +62,25 @@ export const useSearchBond = (q?: string) => {
 export const useGetBond = () => {
   const queryClient = useQueryClient();
   return useMutation(async (params: GetBondRequest) => {
+    const { thaiSymbol, bondType } = params;
     const mmCode = process.env.REACT_APP_GT_MM_CODE;
     const GET_BOND = `thai-symbol`;
-    const keyThaiSymbol = [GET_BOND, params.thaiSymbol];
-    let bond = queryClient.getQueryData<GetBondFromFileResponse>(keyThaiSymbol);
+    const keyThaiSymbol = [GET_BOND, thaiSymbol];
 
-    if (!bond) {
+    const path = `${
+      process.env.REACT_APP_CDN_HOST
+    }/${mmCode}-${bondType}-${SYMBOL(thaiSymbol)}`;
+
+    const isClearCache = queryClient.getQueryData(keyThaiSymbol);
+    if (!isClearCache) {
       queryClient.removeQueries([GET_BOND]);
-
-      const response = await fetch(
-        `${process.env.REACT_APP_CDN_HOST}/${mmCode}/thai-symbol-${params.thaiSymbol}.json`,
-        {
-          method: "get",
-        }
-      );
-
-      let result = await response.json();
-      if (result) {
-        result = humps.camelizeKeys(result);
-        bond = result;
-      }
-      if (typeof params.thaiSymbol == "string") {
-        queryClient.setQueryData<GetBondFromFileResponse | undefined>(
-          keyThaiSymbol,
-          bond
-        );
-      }
     }
+
+    const bond = await getOrInitQueryData<GetBondFromFileResponse>(
+      queryClient,
+      keyThaiSymbol,
+      path
+    );
 
     const responseBond = bond
       ? {
@@ -110,4 +91,22 @@ export const useGetBond = () => {
 
     return responseBond;
   });
+};
+
+const findSymboleList = (symbolList, q) => {
+  let currentSymbolList: SymbolType[] = [];
+  if (q && q !== "") {
+    for (const symbol of symbolList || []) {
+      const { thaiSymbol } = symbol;
+      const thaiSymbolLowerCase = thaiSymbol.toLowerCase();
+      const qLowerCase = q.toLowerCase();
+      if (thaiSymbolLowerCase.indexOf(qLowerCase) > -1) {
+        currentSymbolList.push(symbol);
+      }
+    }
+  } else {
+    currentSymbolList = symbolList || [];
+  }
+
+  return currentSymbolList;
 };

@@ -9,7 +9,8 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
 
   useEffect(() => {
     setSelected(defaultValue);
-  }, [defaultValue]);
+    onSelectedProp?.(defaultValue);
+  }, [onSelectedProp, defaultValue]);
 
   const onSelected = useCallback(
     (_event, value: string) => {

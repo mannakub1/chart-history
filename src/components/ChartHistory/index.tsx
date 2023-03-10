@@ -22,9 +22,17 @@ const ChartHistory = (props: ChartHistoryProps) => {
     return defaultValue;
   }, [buttonGroupValue]);
 
+  const interval = useMemo(() => {
+    if (data && data.length > 7) {
+      return Math.floor(data.length / 7);
+    }
+
+    return "auto";
+  }, [data]);
+
   return (
     <StyledDiv>
-      <Chart title="อัตราผลตอบแทน" data={data || []} />
+      <Chart title="อัตราผลตอบแทน" data={data || []} interval={interval} />
       <ButtonGroup
         defaultValue={buttonGroupDefaultValue}
         onSelected={onClickButtonGroup}

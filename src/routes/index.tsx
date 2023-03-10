@@ -6,7 +6,16 @@ import * as paths from "../constants/paths";
 export const Routes = () => {
   return (
     <RoutesLib>
-      <Route path={paths.home()} element={<Home />} errorElement={<Home />} />
+      <Route
+        path={paths.homeSaving()}
+        element={<Home />}
+        errorElement={<Home />}
+      />
+      <Route
+        path={paths.homeCorp()}
+        element={<Home />}
+        errorElement={<Home />}
+      />
       <Route path="*" element={<NotFound />} />
     </RoutesLib>
   );

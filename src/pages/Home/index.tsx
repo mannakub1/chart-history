@@ -68,10 +68,11 @@ const getButtonGroupDefaultValue = (): ButtonGroupValueType[] => {
 
 const Home = () => {
   const router = useRouter();
+
   const [data, setData] = useState<GetBondResponse>();
   const [q, setQ] = useState("");
   const [thaiSymbol, setThaiSymbol] = useState(router.query.symbol || "");
-  const [isDataAvailable, setIsDataAvailable] = useState(true);
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
   const [showComponents, setShowComponents] = useState(true);
   const [buttonGroupValue, setButtonGroupValue] = useState<
     ButtonGroupValueType[]
@@ -84,13 +85,19 @@ const Home = () => {
     ItemSearchListType[] | undefined
   >([]);
 
+  const bondType = useMemo(() => {
+    const paths = router.pathname.split("/");
+    const currentbondType = paths[1];
+    return currentbondType.toUpperCase();
+  }, [router]);
+
   const {
     data: searchBond,
     fetchNextPage,
     isFetched,
     isFetchingNextPage,
     hasNextPage,
-  } = useSearchBond(q);
+  } = useSearchBond({ q, bondType });
   const { mutate: getBond } = useGetBond();
 
   useEffect(() => {
@@ -102,7 +109,7 @@ const Home = () => {
     let indexDefault: number = -1;
     let currentButtonGroupValue = getButtonGroupDefaultValue();
 
-    data?.overallAvg.forEach((data: OverallResponse, index: number) => {
+    data?.overallAvg?.forEach((data: OverallResponse, index: number) => {
       const { value } = data;
 
       if (!value) {
@@ -126,12 +133,18 @@ const Home = () => {
         {
           period,
           thaiSymbol,
+          bondType,
         },
         {
           onSuccess: (data) => {
-            setData(data);
-            setShowComponents(true);
-            setIsDataAvailable(true);
+            if (data) {
+              setData(data);
+              setShowComponents(true);
+              setIsDataAvailable(true);
+            } else {
+              setShowComponents(true);
+              setIsDataAvailable(false);
+            }
           },
           onError: (response) => {
             setIsDataAvailable(false);
@@ -150,6 +163,7 @@ const Home = () => {
     setShowComponents,
     setIsDataAvailable,
     setData,
+    bondType,
   ]);
 
   const scrollProp = useMemo(() => {
@@ -212,6 +226,7 @@ const Home = () => {
             interestRate={data?.couponRate || ""}
             rateType={data?.couponPayment || ""}
             imageUrl={data?.issuerImageUrl}
+            bondType={bondType}
           />
         )}
       </ContainerHeader>
@@ -226,7 +241,7 @@ const Home = () => {
             <Hr />
           </ContainerHr>
           <Overall values={data?.overallAvg || []} />
-          <BondDetail detail={data} />
+          <BondDetail detail={data} bondType={bondType} />
         </ContainerBody>
       )}
       {showComponents && !isDataAvailable ? (

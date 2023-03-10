@@ -4,4 +4,5 @@ export type BondCardProps = {
   imageUrl?: string;
   rateType: string;
   title: string;
+  bondType: string;
 };

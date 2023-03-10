@@ -57,7 +57,7 @@ const calculateLimitedXaxisValue = (data) => {
 
 const Chart = (props: ChartProps) => {
   const [isDataNull, setIsDataNull] = useState(false);
-  const { data, title } = props;
+  const { data, title, interval = "auto" } = props;
 
   useEffect(() => {
     if (data.length === 0) {
@@ -102,7 +102,7 @@ const Chart = (props: ChartProps) => {
     },
     grid: {
       left: "5%",
-      right: "3%",
+      right: "5%",
       bottom: "3%",
       top: "3%",
       containLabel: true,
@@ -110,13 +110,21 @@ const Chart = (props: ChartProps) => {
     },
     xAxis: {
       type: "category",
-      boundaryGap: false,
+      boundaryGap: true,
       animation: true,
       data: chartData.xAxis,
+      min: chartData.xAxis[0],
+      max: chartData.xAxis[chartData.xAxis.length - 1],
+
       axisLabel: {
+        interval: interval,
+        hideOverlap: true,
+        margin: 15,
         formatter: (chartDataXaxis) =>
           chartDataXaxis.split(" ").slice(0, 2).join(" "), // remove year on chartData.xAxis
         align: "center",
+        verticalAlign: "middle",
+        // rotate: 15,
         textStyle: {
           fontSize: "0.75rem",
           fontFamily: "Kanit",
@@ -134,7 +142,7 @@ const Chart = (props: ChartProps) => {
       type: "value",
       position: "right",
       animation: true,
-      minInterval: 0.5,
+      interval: 1,
       className: "y-axis-label",
       axisLabel: {
         formatter: (chartDataYaxis) => `${chartDataYaxis.toFixed(1)}%`, // fix chartDataYaxis to 1 decimal and add % string in the end of data

@@ -36,4 +36,5 @@ const generate =
     return `${newUrl}${newQueryParam}`;
   };
 
-export const home = generate("/index");
+export const homeSaving = generate("/sb");
+export const homeCorp = generate("/cb");

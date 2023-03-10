@@ -16,7 +16,8 @@ import {
 import { BondCardProps } from "./type";
 
 const BondCard = (props: BondCardProps) => {
-  const { title, description, interestRate, imageUrl, rateType } = props;
+  const { title, description, interestRate, imageUrl, rateType, bondType } =
+    props;
   return (
     <StyledCard>
       <StyledCardContentContainer>
@@ -45,9 +46,7 @@ const BondCard = (props: BondCardProps) => {
       <StyledCardFooter>
         <div>
           <Text weight={600}>
-            {process.env.REACT_APP_TYPE === "saving"
-              ? "ดอกเบี้ยต่อปี"
-              : "อัตราดอกเบี้ยหน้าตั๋ว"}
+            {bondType === "SB" ? "ดอกเบี้ยต่อปี" : "อัตราดอกเบี้ยหน้าตั๋ว"}
           </Text>
           {rateType === "03" && (
             <Text size={"0.875rem"} color={GRAY_838383}>

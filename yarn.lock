@@ -4144,7 +4144,7 @@ echarts-for-react@^3.0.2:
 
 echarts@^5.4.1:
   version "5.4.1"
-  resolved "https://registry.npmjs.org/echarts/-/echarts-5.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/echarts/-/echarts-5.4.1.tgz#d7f65a584d78beff62568d878b16151b3381811c"
   integrity sha512-9ltS3M2JB0w2EhcYjCdmtrJ+6haZcW6acBolMGIuf01Hql1yrIV01L1aRj7jsaaIULJslEP9Z3vKlEmnJaWJVQ==
   dependencies:
     tslib "2.3.0"

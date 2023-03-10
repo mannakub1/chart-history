@@ -1,6 +1,7 @@
 export type ChartProps = {
   data: ChartDataType[];
   title: string;
+  interval?: string | number;
 };
 
 export type ChartDataType = {
